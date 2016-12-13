@@ -1,0 +1,44 @@
+<ion-header>
+  <ion-navbar>
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>Library</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+  <ion-grid>
+    <ion-row>
+      <ion-col width-50>
+        <ion-grid>
+          <ion-row>
+            <ion-col style="background-color: #e74c3c;">
+              <ion-list>
+                <div ion-item *ngFor="let item of items">
+                  {{item.title}}
+                </div>
+              </ion-list>
+            </ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col style="background-color: #f1c40f; height=100%">
+              <ion-list>
+                <div ion-item *ngFor="let item of items">
+                  {{item.title}}
+                </div>
+              </ion-list>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </ion-col>
+      <ion-col width-50 style="background-color: #9b59b6;">
+        <ion-list>
+          <div ion-item *ngFor="let item of items">
+            {{item.title}}
+          </div>
+        </ion-list>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>
