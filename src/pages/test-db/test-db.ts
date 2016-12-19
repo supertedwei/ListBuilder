@@ -8,18 +8,38 @@ import { LibraryProvider, LibraryData } from '../../providers/library-provider';
 })
 export class TestDbPage {
 
+  private subscription;
+  libraryData = new LibraryData();
+  libraryDataList = [];
+
   constructor(public navCtrl: NavController, private libraryProvider: LibraryProvider) {
-    
+    console.log('init TestDbPage');
+    this.libraryDataList = this.libraryProvider.listAll();
+    this.subscription = this.libraryProvider.listChanged$.subscribe(() => {
+      console.log('libraryProvider emitted');
+      this.libraryDataList = this.libraryProvider.listAll();
+    });
+  }
+
+  ngOnDestroy() {
+    console.log('subscription.unsubscribe');
+    this.subscription.unsubscribe();
   }
 
   ionViewDidLoad() {
-    console.log('Hello TestDbPage Page');
-    let data = new LibraryData();
-    data.cat = "cat_001"
-    data.subcat = "subcat_001"
-    data.item = "item_001"
-    data.dialog = "dialog_001"
-    this.libraryProvider.createOrUpdate(data);
+    console.log('Hello TestDbPage Page');    
+    // let data = new LibraryData();
+    // data.cat = "cat_001"
+    // data.subcat = "subcat_001"
+    // data.item = "item_001"
+    // data.dialog = "dialog_001"
+    // this.libraryProvider.createOrUpdate(data);
+  }
+
+  onCreatedClicked() {
+    console.log('onCreatedClicked : ', JSON.stringify(this.libraryData));
+    this.libraryProvider.createOrUpdate(this.libraryData);
+    this.libraryData = new LibraryData();
   }
 
 }

@@ -1,28 +1,30 @@
-import { Injectable } from '@angular/core';
+import { Injectable, EventEmitter } from '@angular/core';
 import { Storage } from '@ionic/storage';
+import { UUID } from 'angular2-uuid';
 
 @Injectable()
 export class LibraryProvider {
 
+  public listChanged$ = new EventEmitter();
   public message: any = "I'm new here";
   private list = [];
 
   constructor(private storage: Storage) {
-    console.log('Hello LibraryProvider Provider');
+    console.log('init LibraryProvider Provider');
+    this.storage.get("LibraryDataList").then((val) => {
+      this.list = JSON.parse(val);
+      this.listChanged$.emit();
+      console.log('[LibraryProvider] json loaded ! ');
+    });
   }
 
-  setMessage(message) {
-    this.message = message;
-    console.log('message : ' + message);
-    this.storage.set('message', message);
-    this.storage.get('message').then((val) => {
-       console.log('message2 : ', val);
-    })
+  listAll() {
+    return this.list;
   }
 
   createOrUpdate(data: LibraryData) {
     if (data.id == null) {
-      data.id = "001";
+      data.id = UUID.UUID();
       this.list.push(data);
       this.saveToDb();
     }

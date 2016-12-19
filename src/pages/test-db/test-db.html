@@ -10,4 +10,39 @@
 
 <ion-content padding>
 
+  <ion-list>
+
+    <ion-item>
+      <ion-label floating>Cat</ion-label>
+      <ion-input type="text" [(ngModel)]="libraryData.cat" ></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label floating>Subcat</ion-label>
+      <ion-input type="text" [(ngModel)]="libraryData.subcat"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label floating>Item</ion-label>
+      <ion-input type="text" [(ngModel)]="libraryData.item"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label floating>Dialog</ion-label>
+      <ion-input type="text" [(ngModel)]="libraryData.dialog"></ion-input>
+    </ion-item>
+
+    <button ion-button round (click)="onCreatedClicked()">Create</button>
+
+  </ion-list>
+
+  <ion-grid *ngFor="let itemData of libraryDataList" >
+    <ion-row>
+      <ion-col>{{itemData.cat}}</ion-col>
+      <ion-col>{{itemData.subcat}}</ion-col>
+      <ion-col>{{itemData.item}}</ion-col>
+      <ion-col>{{itemData.dialog}}</ion-col>
+    </ion-row>
+  </ion-grid>
+
 </ion-content>
