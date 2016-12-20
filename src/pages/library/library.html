@@ -8,37 +8,35 @@
 </ion-header>
 
 <ion-content padding>
-  <ion-grid>
-    <ion-row>
-      <ion-col width-50>
-        <ion-grid>
-          <ion-row>
-            <ion-col style="background-color: #e74c3c;">
-              <ion-list>
-                <div ion-item *ngFor="let item of items">
-                  {{item.title}}
-                </div>
-              </ion-list>
-            </ion-col>
-          </ion-row>
-          <ion-row>
-            <ion-col style="background-color: #f1c40f; height=100%">
-              <ion-list>
-                <div ion-item *ngFor="let item of items">
-                  {{item.title}}
-                </div>
-              </ion-list>
-            </ion-col>
-          </ion-row>
-        </ion-grid>
-      </ion-col>
-      <ion-col width-50 style="background-color: #9b59b6;">
-        <ion-list>
-          <div ion-item *ngFor="let item of items">
-            {{item.title}}
-          </div>
-        </ion-list>
-      </ion-col>
-    </ion-row>
-  </ion-grid>
+
+  <ion-item *ngIf="cat != null" style="background-color: #b0b0b0;">
+    <ion-label>Cat</ion-label>
+    <ion-label>{{cat}}</ion-label>
+  </ion-item>
+
+  <ion-item *ngIf="subcat != null" style="background-color: #b0b0b0;">
+    <ion-label>Subcat</ion-label>
+    <ion-label>{{subcat}}</ion-label>
+  </ion-item>
+
+  <ion-item *ngIf="item != null" style="background-color: #b0b0b0;">
+    <ion-label>Item</ion-label>
+    <ion-label>{{item}}</ion-label>
+  </ion-item>
+
+  <ion-item *ngIf="dialog != null" style="background-color: #b0b0b0;">
+    <ion-label>Dialog</ion-label>
+    <ion-label>{{dialog}}</ion-label>
+  </ion-item>
+  
+  <ion-list>
+    <div ion-item *ngFor="let option of options" (click)="onOptionClicked(option)">
+      {{option.title}}
+    </div>
+  </ion-list>
+
+  <button ion-button round *ngIf="isShowPostButton()" (click)="onPostClicked()">Post</button>
+
+
+
 </ion-content>
