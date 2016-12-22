@@ -33,6 +33,9 @@ export class LibraryProvider {
   createOrUpdate(data: LibraryData) {
     if (data.id == null) {
       data.id = UUID.UUID()
+      if (data.dialog != 2) {
+        data.range = null
+      }
       this.list.push(data)
       this.saveToDb()
     }
@@ -51,6 +54,6 @@ export class LibraryData {
   public cat: string;
   public subcat: string;
   public item: string;
-  public dialog: string;
+  public dialog: number;    // 1: Percent, 2: Range
   public range: any = { lower: 0, upper: 100 };
 }
