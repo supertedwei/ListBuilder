@@ -28,20 +28,28 @@
     </ion-item>
 
     <ion-item>
-      <ion-label floating>Dialog</ion-label>
-      <ion-input type="text" [(ngModel)]="libraryData.dialog"></ion-input>
+      <ion-label>Dialog</ion-label>
+      <ion-select [(ngModel)]="libraryData.dialog">
+        <ion-option value="1">Percent</ion-option>
+        <ion-option value="2">Range</ion-option>
+      </ion-select>
+    </ion-item>
+
+    <ion-item *ngIf='libraryData.dialog == "2"'>
+      <ion-range dualKnobs="true" pin="true" [(ngModel)]="libraryData.range" min="0" max="100">
+        <ion-label range-left>0</ion-label>
+        <ion-label range-right>100</ion-label>
+      </ion-range>
     </ion-item>
 
     <button ion-button round (click)="onCreatedClicked()">Create</button>
+    <button ion-button round (click)="onCleanDbClicked()">Clean DB</button>
 
   </ion-list>
 
   <ion-grid *ngFor="let itemData of libraryDataList" >
     <ion-row>
-      <ion-col>{{itemData.cat}}</ion-col>
-      <ion-col>{{itemData.subcat}}</ion-col>
-      <ion-col>{{itemData.item}}</ion-col>
-      <ion-col>{{itemData.dialog}}</ion-col>
+      <ion-col>{{toString(itemData)}}</ion-col>
     </ion-row>
   </ion-grid>
 

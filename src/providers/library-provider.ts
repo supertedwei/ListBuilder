@@ -21,15 +21,20 @@ export class LibraryProvider {
     });
   }
 
+  clean() {
+    this.list.length = 0
+    this.saveToDb()
+  }
+
   listAll() {
-    return this.list;
+    return this.list
   }
 
   createOrUpdate(data: LibraryData) {
     if (data.id == null) {
-      data.id = UUID.UUID();
-      this.list.push(data);
-      this.saveToDb();
+      data.id = UUID.UUID()
+      this.list.push(data)
+      this.saveToDb()
     }
   }
 
@@ -47,4 +52,5 @@ export class LibraryData {
   public subcat: string;
   public item: string;
   public dialog: string;
+  public range: any = { lower: 0, upper: 100 };
 }

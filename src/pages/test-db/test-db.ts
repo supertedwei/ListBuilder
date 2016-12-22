@@ -8,26 +8,26 @@ import { LibraryProvider, LibraryData } from '../../providers/library-provider';
 })
 export class TestDbPage {
 
-  private subscription;
-  libraryData = new LibraryData();
-  libraryDataList = [];
+  private subscription
+  libraryData = new LibraryData()
+  libraryDataList = []
 
   constructor(public navCtrl: NavController, private libraryProvider: LibraryProvider) {
-    console.log('init TestDbPage');
-    this.libraryDataList = this.libraryProvider.listAll();
+    console.log('init TestDbPage')
+    this.libraryDataList = this.libraryProvider.listAll()
     this.subscription = this.libraryProvider.listChanged$.subscribe(() => {
-      console.log('libraryProvider emitted');
-      this.libraryDataList = this.libraryProvider.listAll();
+      console.log('libraryProvider emitted')
+      this.libraryDataList = this.libraryProvider.listAll()
     });
   }
 
   ngOnDestroy() {
-    console.log('subscription.unsubscribe');
-    this.subscription.unsubscribe();
+    console.log('subscription.unsubscribe')
+    this.subscription.unsubscribe()
   }
 
   ionViewDidLoad() {
-    console.log('Hello TestDbPage Page');    
+    console.log('Hello TestDbPage Page') 
     // let data = new LibraryData();
     // data.cat = "cat_001"
     // data.subcat = "subcat_001"
@@ -37,9 +37,20 @@ export class TestDbPage {
   }
 
   onCreatedClicked() {
-    console.log('onCreatedClicked : ', JSON.stringify(this.libraryData));
-    this.libraryProvider.createOrUpdate(this.libraryData);
-    this.libraryData = new LibraryData();
+    console.log('onCreatedClicked : ', JSON.stringify(this.libraryData))
+    this.libraryProvider.createOrUpdate(this.libraryData)
+    this.libraryData = new LibraryData()
+  }
+
+  onCleanDbClicked() {
+    console.log('onCleanDbClicked')
+    this.libraryProvider.clean()
+    this.libraryData = new LibraryData()
+  }
+
+  toString(itemData) {
+    console.log('getData : ', JSON.stringify(itemData))
+    return JSON.stringify(itemData)
   }
 
 }
