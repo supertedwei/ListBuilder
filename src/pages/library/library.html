@@ -24,18 +24,31 @@
     <ion-label>{{item}}</ion-label>
   </ion-item>
 
-  <ion-item *ngIf="dialog != null" style="background-color: #b0b0b0;">
-    <ion-label>Dialog</ion-label>
-    <ion-label>{{dialog}}</ion-label>
-  </ion-item>
+  <ion-item *ngIf="state == 4">
+      <ion-label>Dialog/{{dialogRangeMin}}/{{dialogRangeMax}}</ion-label>
+      <ion-range pin="true" [(ngModel)]="dialogValue" min="{{dialogRangeMin}}" max="{{dialogRangeMax}}">
+        <ion-label range-left>{{dialogRangeMin}}</ion-label>
+        <ion-label range-right>{{dialogRangeMax}}</ion-label>
+      </ion-range>
+    </ion-item>
   
   <ion-list>
     <div ion-item *ngFor="let option of options" (click)="onOptionClicked(option)">
-      {{option.title}}
+      {{option}}
     </div>
   </ion-list>
 
+    
+
+  <button ion-button round *ngIf="isShowAddButton()" (click)="onAddClicked()">Add</button>
   <button ion-button round *ngIf="isShowPostButton()" (click)="onPostClicked()">Post</button>
+
+  <ion-list>
+    <div ion-item *ngFor="let libraryPostData of libraryPostDatas">
+      {{toString(libraryPostData)}}
+    </div>
+  </ion-list>
+
 
 
 

@@ -16,7 +16,7 @@ export class TestDbPage {
     console.log('init TestDbPage')
     this.libraryDataList = this.libraryProvider.listAll()
     this.subscription = this.libraryProvider.listChanged$.subscribe(() => {
-      console.log('libraryProvider emitted')
+      console.log('[TestDbPage] libraryProvider emitted')
       this.libraryDataList = this.libraryProvider.listAll()
     });
   }
@@ -49,7 +49,6 @@ export class TestDbPage {
   }
 
   toString(itemData) {
-    console.log('getData : ', JSON.stringify(itemData))
     return JSON.stringify(itemData)
   }
 

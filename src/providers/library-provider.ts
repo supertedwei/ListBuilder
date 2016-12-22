@@ -30,6 +30,44 @@ export class LibraryProvider {
     return this.list
   }
 
+  listCat() {
+    var result = []
+    for (var item of this.list) {
+      if (result.indexOf(item.cat) < 0) {
+        result.push(item.cat)
+      }
+    }
+    return result
+  }
+
+  listSubcat(cat) {
+    var result = []
+    for (var data of this.list) {
+      if (data.cat == cat && result.indexOf(data.subcat) < 0) {
+        result.push(data.subcat)
+      }
+    }
+    return result
+  }
+
+  listItem(cat, subcat) {
+    var result = []
+    for (var data of this.list) {
+      if (data.cat == cat && data.subcat == subcat && result.indexOf(data.item) < 0) {
+        result.push(data.item)
+      }
+    }
+    return result
+  }
+
+  getLibraryData(cat, subcat, item): LibraryData {
+    for (var data of this.list) {
+      if (data.cat == cat && data.subcat == subcat && data.item == item) {
+        return data
+      }
+    }
+  }
+
   createOrUpdate(data: LibraryData) {
     if (data.id == null) {
       data.id = UUID.UUID()
@@ -42,18 +80,21 @@ export class LibraryProvider {
   }
 
   private saveToDb() {
-    let jsonString = JSON.stringify(this.list);
-    console.log('jsonString : ', jsonString);
-    this.storage.set('LibraryDataList', jsonString);
+    let jsonString = JSON.stringify(this.list)
+    console.log('jsonString : ', jsonString)
+    this.storage.set('LibraryDataList', jsonString)
   }
 
 }
 
 export class LibraryData {
-  public id: string;
-  public cat: string;
-  public subcat: string;
-  public item: string;
-  public dialog: number;    // 1: Percent, 2: Range
-  public range: any = { lower: 0, upper: 100 };
+  static DIALOG_PERCENT = 1
+  static DIALOG_RANGE = 2
+
+  public id: string
+  public cat: string
+  public subcat: string
+  public item: string
+  public dialog: number
+  public range: any = { lower: 0, upper: 100 }
 }
