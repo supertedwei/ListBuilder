@@ -66,6 +66,25 @@ export class Library {
     this.prepareOptions()
   }
 
+  gotoSubcat() {
+    this.subcat = null
+    this.item = null
+    this.dialogValue = null
+    this.dialogRangeMin = null
+    this.dialogRangeMax = null
+    this.state = Library.STATE_SUBCAT
+    this.prepareOptions()
+  }
+
+  gotoItem() {
+    this.item = null
+    this.dialogValue = null
+    this.dialogRangeMin = null
+    this.dialogRangeMax = null
+    this.state = Library.STATE_ITEM
+    this.prepareOptions()
+  }
+
   prepareOptions() {
     this.options = [];
     if (this.state == Library.STATE_CAT) {

@@ -9,23 +9,23 @@
 
 <ion-content padding>
 
-  <ion-item *ngIf="cat != null" style="background-color: #b0b0b0;">
+  <ion-item *ngIf="cat != null" style="background-color: #b0b0b0;" (click)="gotoCat()">
     <ion-label>Cat</ion-label>
     <ion-label>{{cat}}</ion-label>
   </ion-item>
 
-  <ion-item *ngIf="subcat != null" style="background-color: #b0b0b0;">
+  <ion-item *ngIf="subcat != null" style="background-color: #b0b0b0;" (click)="gotoSubcat()">
     <ion-label>Subcat</ion-label>
     <ion-label>{{subcat}}</ion-label>
   </ion-item>
 
-  <ion-item *ngIf="item != null" style="background-color: #b0b0b0;">
+  <ion-item *ngIf="item != null" style="background-color: #b0b0b0;"  (click)="gotoItem()">
     <ion-label>Item</ion-label>
     <ion-label>{{item}}</ion-label>
   </ion-item>
 
   <ion-item *ngIf="state == 4">
-      <ion-label>Dialog/{{dialogRangeMin}}/{{dialogRangeMax}}</ion-label>
+      <ion-label>Dialog/{{dialogValue}}</ion-label>
       <ion-range pin="true" [(ngModel)]="dialogValue" min="{{dialogRangeMin}}" max="{{dialogRangeMax}}">
         <ion-label range-left>{{dialogRangeMin}}</ion-label>
         <ion-label range-right>{{dialogRangeMax}}</ion-label>
