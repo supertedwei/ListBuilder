@@ -95,6 +95,6 @@ export class LibraryData {
   public cat: string
   public subcat: string
   public item: string
-  public dialog: number
+  public dialog: number = LibraryData.DIALOG_PERCENT
   public range: any = { lower: 0, upper: 100 }
 }
