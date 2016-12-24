@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 
-import { NavController } from 'ionic-angular';
+import { NavController, AlertController, ActionSheetController } from 'ionic-angular';
 import { LibraryProvider, LibraryData } from '../../providers/library-provider';
 
 @Component({
@@ -25,7 +25,11 @@ export class Library {
   options: Array<string>
   libraryPostDatas: LibraryPostData[] = []
 
-  constructor(public navCtrl: NavController, private libraryProvider: LibraryProvider) {
+  clients: string[] = ["Default"]
+  currentClient: string = "Default"
+
+  constructor(public navCtrl: NavController, private libraryProvider: LibraryProvider,
+      private alertCtrl: AlertController, private actionSheetCtrl: ActionSheetController) {
     this.prepareOptions()
     this.subscription = this.libraryProvider.listChanged$.subscribe(() => {
       console.log('[Library] libraryProvider emitted')
@@ -133,9 +137,48 @@ export class Library {
     return JSON.stringify(itemData)
   }
 
+  onRemoveClient() {
+    this.clients = this.clients.filter(item => item !== this.currentClient);
+    if (this.clients.length > 0) {
+      this.currentClient = this.clients[0]
+    } else {
+      this.currentClient = "Default"
+    }
+  }
+
+  onAddClientClicked() {
+    console.log("onAddClientClicked")
+    var clientName = "Client_" + new Date().getTime()
+    this.clients.push(clientName)
+    this.currentClient = clientName
+  }
+
+  onSwitchClientClicked() {
+    console.log("onSwitchClientClicked")
+
+    var buttonList = []
+    for (var index in this.clients) {
+      var button = {}
+      button["text"] = this.clients[index]
+      button["position"] = index
+      button["parent"] = this
+      button["handler"] = function() {
+        console.log("position : " + this.position)
+        this.parent.currentClient = this.parent.clients[this.position]
+      }
+      buttonList.push(button)
+    }
+
+    let actionSheet = this.actionSheetCtrl.create({
+      title: 'Switch Client',
+      buttons: buttonList
+    });
+    actionSheet.present();
+  }
+
 }
 
-export class LibraryPostData {
+class LibraryPostData {
   cat: string
   subcat: string
   item: string
