@@ -24,34 +24,34 @@
   </ion-fab>
 
   <ion-item color="primary">
-    <ion-label>{{currentClient}}</ion-label>
+    <ion-label>{{currentClient.clientName}}</ion-label>
   </ion-item>
 
-  <ion-item *ngIf="cat != null" style="background-color: #b0b0b0;" (click)="gotoCat()">
+  <ion-item *ngIf="currentClient.cat != null" style="background-color: #b0b0b0;" (click)="gotoCat()">
     <ion-label>Cat</ion-label>
-    <ion-label>{{cat}}</ion-label>
+    <ion-label>{{currentClient.cat}}</ion-label>
   </ion-item>
 
-  <ion-item *ngIf="subcat != null" style="background-color: #b0b0b0;" (click)="gotoSubcat()">
+  <ion-item *ngIf="currentClient.subcat != null" style="background-color: #b0b0b0;" (click)="gotoSubcat()">
     <ion-label>Subcat</ion-label>
-    <ion-label>{{subcat}}</ion-label>
+    <ion-label>{{currentClient.subcat}}</ion-label>
   </ion-item>
 
-  <ion-item *ngIf="item != null" style="background-color: #b0b0b0;"  (click)="gotoItem()">
+  <ion-item *ngIf="currentClient.item != null" style="background-color: #b0b0b0;"  (click)="gotoItem()">
     <ion-label>Item</ion-label>
-    <ion-label>{{item}}</ion-label>
+    <ion-label>{{currentClient.item}}</ion-label>
   </ion-item>
 
   <ion-item *ngIf="state == 4">
       <ion-label>Dialog/{{dialogValue}}</ion-label>
-      <ion-range pin="true" [(ngModel)]="dialogValue" min="{{dialogRangeMin}}" max="{{dialogRangeMax}}">
-        <ion-label range-left>{{dialogRangeMin}}</ion-label>
-        <ion-label range-right>{{dialogRangeMax}}</ion-label>
+      <ion-range pin="true" [(ngModel)]="currentClient.dialogValue" min="{{currentClient.dialogRangeMin}}" max="{{currentClient.dialogRangeMax}}">
+        <ion-label range-left>{{currentClient.dialogRangeMin}}</ion-label>
+        <ion-label range-right>{{currentClient.dialogRangeMax}}</ion-label>
       </ion-range>
     </ion-item>
   
   <ion-list>
-    <div ion-item *ngFor="let option of options" (click)="onOptionClicked(option)">
+    <div ion-item *ngFor="let option of currentClient.options" (click)="onOptionClicked(option)">
       {{option}}
     </div>
   </ion-list>
@@ -60,7 +60,7 @@
   <button ion-button round *ngIf="isShowPostButton()" (click)="onPostClicked()">Post</button>
 
   <ion-list>
-    <div ion-item *ngFor="let libraryPostData of libraryPostDatas">
+    <div ion-item *ngFor="let libraryPostData of currentClient.libraryPostDatas">
       {{toString(libraryPostData)}}
     </div>
   </ion-list>

@@ -8,25 +8,11 @@ import { LibraryProvider, LibraryData } from '../../providers/library-provider';
   templateUrl: 'library.html'
 })
 export class Library {
-
-  private static STATE_CAT = 1
-  private static STATE_SUBCAT = 2
-  private static STATE_ITEM = 3
-  private static STATE_DIALOG = 4
   
-  state = Library.STATE_CAT
   subscription
-  cat: string
-  subcat: string
-  item: string
-  dialogValue: number
-  dialogRangeMin: string
-  dialogRangeMax: string
-  options: Array<string>
-  libraryPostDatas: LibraryPostData[] = []
 
-  clients: string[] = ["Default"]
-  currentClient: string = "Default"
+  clients: ClientData[] = [new ClientData()]
+  currentClient: ClientData = this.clients[0]
 
   constructor(public navCtrl: NavController, private libraryProvider: LibraryProvider,
       private alertCtrl: AlertController, private actionSheetCtrl: ActionSheetController) {
@@ -44,93 +30,79 @@ export class Library {
 
   onOptionClicked(option) {
     console.log("optionClicked")
-    if (this.state == Library.STATE_CAT) {
-      this.cat = option
-      this.state = Library.STATE_SUBCAT
+    if (this.currentClient.state == ClientData.STATE_CAT) {
+      this.currentClient.cat = option
+      this.currentClient.state = ClientData.STATE_SUBCAT
       this.prepareOptions()
-    } else if (this.state == Library.STATE_SUBCAT) {
-      this.subcat = option
-      this.state = Library.STATE_ITEM
+    } else if (this.currentClient.state == ClientData.STATE_SUBCAT) {
+      this.currentClient.subcat = option
+      this.currentClient.state = ClientData.STATE_ITEM
       this.prepareOptions()
-    } else if (this.state == Library.STATE_ITEM) {
-      this.item = option
-      this.state = Library.STATE_DIALOG
+    } else if (this.currentClient.state == ClientData.STATE_ITEM) {
+      this.currentClient.item = option
+      this.currentClient.state = ClientData.STATE_DIALOG
       this.prepareOptions()
     }
   }
 
   gotoCat() {
-    this.cat = null
-    this.subcat = null
-    this.item = null
-    this.dialogValue = null
-    this.dialogRangeMin = null
-    this.dialogRangeMax = null
-    this.state = Library.STATE_CAT
+    this.currentClient.setStateCat()
     this.prepareOptions()
   }
 
   gotoSubcat() {
-    this.subcat = null
-    this.item = null
-    this.dialogValue = null
-    this.dialogRangeMin = null
-    this.dialogRangeMax = null
-    this.state = Library.STATE_SUBCAT
+    this.currentClient.setStateSubcat()
     this.prepareOptions()
   }
 
   gotoItem() {
-    this.item = null
-    this.dialogValue = null
-    this.dialogRangeMin = null
-    this.dialogRangeMax = null
-    this.state = Library.STATE_ITEM
+    this.currentClient.setStateItem()
     this.prepareOptions()
   }
 
   prepareOptions() {
-    this.options = [];
-    if (this.state == Library.STATE_CAT) {
-      this.options = this.libraryProvider.listCat()
-    } else if (this.state == Library.STATE_SUBCAT) {
-      this.options = this.libraryProvider.listSubcat(this.cat)
-    } else if (this.state == Library.STATE_ITEM) {
-      this.options = this.libraryProvider.listItem(this.cat, this.subcat)
-    } else if (this.state == Library.STATE_DIALOG) {
-      var library = this.libraryProvider.getLibraryData(this.cat, this.subcat, this.item)
+    this.currentClient.options = [];
+    if (this.currentClient.state == ClientData.STATE_CAT) {
+      this.currentClient.options = this.libraryProvider.listCat()
+    } else if (this.currentClient.state == ClientData.STATE_SUBCAT) {
+      this.currentClient.options = this.libraryProvider.listSubcat(this.currentClient.cat)
+    } else if (this.currentClient.state == ClientData.STATE_ITEM) {
+      this.currentClient.options = this.libraryProvider.listItem(this.currentClient.cat, this.currentClient.subcat)
+    } else if (this.currentClient.state == ClientData.STATE_DIALOG) {
+      var library = this.libraryProvider.getLibraryData(this.currentClient.cat, this.currentClient.subcat, this.currentClient.item)
       if (library.dialog == LibraryData.DIALOG_PERCENT) {
-        this.dialogRangeMin = "0"
-        this.dialogRangeMax = "100"
+        this.currentClient.dialogRangeMin = "0"
+        this.currentClient.dialogRangeMax = "100"
       } else {
-        this.dialogRangeMin = library.range.lower
-        this.dialogRangeMax = library.range.upper
+        this.currentClient.dialogRangeMin = library.range.lower
+        this.currentClient.dialogRangeMax = library.range.upper
       }
     }
   }
 
   isShowAddButton() {
-    return this.state == Library.STATE_DIALOG
+    return this.currentClient.state == ClientData.STATE_DIALOG
   }
 
   isShowPostButton() {
-    return this.libraryPostDatas.length > 0
+    return this.currentClient.libraryPostDatas.length > 0
   }
 
   onAddClicked() {
     var libraryPostData = new LibraryPostData()
-    libraryPostData.cat = this.cat
-    libraryPostData.subcat = this.subcat
-    libraryPostData.item = this.item
-    libraryPostData.dialogValue = this.dialogValue
-    this.libraryPostDatas.push(libraryPostData)
-    console.log("libraryPostDatas : " + JSON.stringify(this.libraryPostDatas))
+    libraryPostData.cat = this.currentClient.cat
+    libraryPostData.subcat = this.currentClient.subcat
+    libraryPostData.item = this.currentClient.item
+    libraryPostData.dialogValue = this.currentClient.dialogValue
+    this.currentClient.libraryPostDatas.push(libraryPostData)
+    console.log("libraryPostDatas : " + JSON.stringify(this.currentClient.libraryPostDatas))
     this.gotoCat()
   }
 
   onPostClicked() {
     console.log("onPostClicked")
-    this.libraryPostDatas.length = 0
+    this.currentClient.libraryPostDatas.length = 0
+    this.gotoCat()
   }
 
   toString(itemData) {
@@ -142,15 +114,18 @@ export class Library {
     if (this.clients.length > 0) {
       this.currentClient = this.clients[0]
     } else {
-      this.currentClient = "Default"
+      this.clients = [new ClientData()]
+      this.currentClient = this.clients[0]
+      this.prepareOptions()
     }
   }
 
   onAddClientClicked() {
     console.log("onAddClientClicked")
-    var clientName = "Client_" + new Date().getTime()
-    this.clients.push(clientName)
-    this.currentClient = clientName
+    var clientData = new ClientData()
+    this.clients.push(clientData)
+    this.currentClient = clientData
+    this.prepareOptions()
   }
 
   onSwitchClientClicked() {
@@ -159,12 +134,13 @@ export class Library {
     var buttonList = []
     for (var index in this.clients) {
       var button = {}
-      button["text"] = this.clients[index]
+      button["text"] = this.clients[index].clientName
       button["position"] = index
       button["parent"] = this
       button["handler"] = function() {
         console.log("position : " + this.position)
         this.parent.currentClient = this.parent.clients[this.position]
+        this.parent.prepareOptions()
       }
       buttonList.push(button)
     }
@@ -183,4 +159,49 @@ class LibraryPostData {
   subcat: string
   item: string
   dialogValue: number
+}
+
+class ClientData {
+  static STATE_CAT = 1
+  static STATE_SUBCAT = 2
+  static STATE_ITEM = 3
+  static STATE_DIALOG = 4
+
+  clientName: string = "Client_" + new Date().getTime()
+  state = ClientData.STATE_CAT
+  cat: string
+  subcat: string
+  item: string
+  dialogValue: number
+  dialogRangeMin: string
+  dialogRangeMax: string
+  options: Array<string>
+  libraryPostDatas: LibraryPostData[] = []
+
+  setStateCat() {
+    this.cat = null
+    this.subcat = null
+    this.item = null
+    this.dialogValue = null
+    this.dialogRangeMin = null
+    this.dialogRangeMax = null
+    this.state = ClientData.STATE_CAT
+  }
+
+  setStateSubcat() {
+    this.subcat = null
+    this.item = null
+    this.dialogValue = null
+    this.dialogRangeMin = null
+    this.dialogRangeMax = null
+    this.state = ClientData.STATE_SUBCAT
+  }
+
+  setStateItem() {
+    this.item = null
+    this.dialogValue = null
+    this.dialogRangeMin = null
+    this.dialogRangeMax = null
+    this.state = ClientData.STATE_ITEM
+  }
 }
