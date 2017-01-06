@@ -17,7 +17,6 @@ export class Library {
   constructor(public navCtrl: NavController, private libraryProvider: LibraryProvider,
       private alertCtrl: AlertController, private actionSheetCtrl: ActionSheetController,
       private storage: Storage) {
-    this.prepareOptions()
     this.subscription = this.libraryProvider.listChanged$.subscribe(() => {
       console.log('[Library] libraryProvider emitted')
       this.prepareOptions()
@@ -31,6 +30,7 @@ export class Library {
         this.clients = [new ClientData()];
       }
       this.currentClient = this.clients[0]
+      this.prepareOptions()
     });
   }
 
