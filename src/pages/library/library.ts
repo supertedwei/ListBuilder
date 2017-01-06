@@ -60,17 +60,17 @@ export class Library {
   }
 
   gotoCat() {
-    this.currentClient.setStateCat()
+    this.setStateCat()
     this.prepareOptions()
   }
 
   gotoSubcat() {
-    this.currentClient.setStateSubcat()
+    this.setStateSubcat()
     this.prepareOptions()
   }
 
   gotoItem() {
-    this.currentClient.setStateItem()
+    this.setStateItem()
     this.prepareOptions()
   }
 
@@ -166,6 +166,33 @@ export class Library {
     actionSheet.present();
   }
 
+  setStateCat() {
+    this.currentClient.cat = null
+    this.currentClient.subcat = null
+    this.currentClient.item = null
+    this.currentClient.dialogValue = null
+    this.currentClient.dialogRangeMin = null
+    this.currentClient.dialogRangeMax = null
+    this.currentClient.state = ClientData.STATE_CAT
+  }
+
+  setStateSubcat() {
+    this.currentClient.subcat = null
+    this.currentClient.item = null
+    this.currentClient.dialogValue = null
+    this.currentClient.dialogRangeMin = null
+    this.currentClient.dialogRangeMax = null
+    this.currentClient.state = ClientData.STATE_SUBCAT
+  }
+
+  setStateItem() {
+    this.currentClient.item = null
+    this.currentClient.dialogValue = null
+    this.currentClient.dialogRangeMin = null
+    this.currentClient.dialogRangeMax = null
+    this.currentClient.state = ClientData.STATE_ITEM
+  }
+
 }
 
 class LibraryPostData {
@@ -191,31 +218,4 @@ class ClientData {
   dialogRangeMax: string
   options: Array<string>
   libraryPostDatas: LibraryPostData[] = []
-
-  setStateCat() {
-    this.cat = null
-    this.subcat = null
-    this.item = null
-    this.dialogValue = null
-    this.dialogRangeMin = null
-    this.dialogRangeMax = null
-    this.state = ClientData.STATE_CAT
-  }
-
-  setStateSubcat() {
-    this.subcat = null
-    this.item = null
-    this.dialogValue = null
-    this.dialogRangeMin = null
-    this.dialogRangeMax = null
-    this.state = ClientData.STATE_SUBCAT
-  }
-
-  setStateItem() {
-    this.item = null
-    this.dialogValue = null
-    this.dialogRangeMin = null
-    this.dialogRangeMax = null
-    this.state = ClientData.STATE_ITEM
-  }
 }
