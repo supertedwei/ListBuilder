@@ -21,8 +21,8 @@
   <ion-item color="primary">
     <ion-label>{{currentClient.clientName}}</ion-label>
     <button ion-button icon-only item-right (click)="onRemoveClient()">
-        <ion-icon name="close"></ion-icon>
-      </button>
+      <ion-icon name="close"></ion-icon>
+    </button>
   </ion-item>
 
   <ion-item *ngIf="currentClient.cat != null" style="background-color: #b0b0b0;" (click)="gotoCat()">
@@ -60,6 +60,9 @@
   <ion-list>
     <div ion-item *ngFor="let libraryPostData of currentClient.libraryPostDatas">
       {{toString(libraryPostData)}}
+      <button ion-button icon-only item-left (click)="onRemoveLibraryPostData(libraryPostData)">
+        <ion-icon name="close"></ion-icon>
+      </button>
     </div>
   </ion-list>
 

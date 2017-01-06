@@ -134,6 +134,10 @@ export class Library {
     }
   }
 
+  onRemoveLibraryPostData(libraryPostData) {
+    this.currentClient.libraryPostDatas = this.currentClient.libraryPostDatas.filter(item => item !== libraryPostData)
+  }
+
   onAddClientClicked() {
     console.log("onAddClientClicked")
     var clientData = new ClientData()
