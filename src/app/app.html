@@ -6,11 +6,20 @@
   </ion-header>
 
   <ion-content>
+
     <ion-list>
       <button menuClose ion-item *ngFor="let p of pages" [class.activeHighlight]="checkActive(p)" (click)="openPage(p)">
         {{p.title}}
       </button>
     </ion-list>
+
+    <ion-card>
+      <ion-card-header>
+        Version : {{versionNumber}}
+      </ion-card-header>
+      <ion-card-content>
+      </ion-card-content>
+    </ion-card>
   </ion-content>
 
 </ion-menu>
