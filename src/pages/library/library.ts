@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-
+import { Storage } from '@ionic/storage';
 import { NavController, AlertController, ActionSheetController } from 'ionic-angular';
 import { LibraryProvider, LibraryData } from '../../providers/library-provider';
 
@@ -15,17 +15,31 @@ export class Library {
   currentClient: ClientData = this.clients[0]
 
   constructor(public navCtrl: NavController, private libraryProvider: LibraryProvider,
-      private alertCtrl: AlertController, private actionSheetCtrl: ActionSheetController) {
+      private alertCtrl: AlertController, private actionSheetCtrl: ActionSheetController,
+      private storage: Storage) {
     this.prepareOptions()
     this.subscription = this.libraryProvider.listChanged$.subscribe(() => {
       console.log('[Library] libraryProvider emitted')
       this.prepareOptions()
+    });
+    this.storage.get("LibraryClients").then((data) => {
+      if (data == null) {
+        return;
+      }
+      this.clients = JSON.parse(data);
+      if (this.clients.length == 0) {
+        this.clients = [new ClientData()];
+      }
+      this.currentClient = this.clients[0]
     });
   }
 
   ngOnDestroy() {
     console.log('subscription.unsubscribe')
     this.subscription.unsubscribe()
+
+    let jsonString = JSON.stringify(this.clients)
+    this.storage.set("LibraryClients", jsonString);
   }
 
   onOptionClicked(option) {

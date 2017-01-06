@@ -11,11 +11,11 @@ export class LibraryProvider {
 
   constructor(private storage: Storage) {
     console.log('init LibraryProvider Provider');
-    this.storage.get("LibraryDataList").then((val) => {
-      if (val == null) {
+    this.storage.get("LibraryDataList").then((data) => {
+      if (data == null) {
         return;
       }
-      this.list = JSON.parse(val);
+      this.list = JSON.parse(data);
       this.listChanged$.emit();
       console.log('[LibraryProvider] json loaded ! ');
     });
