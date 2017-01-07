@@ -28,19 +28,26 @@
     </ion-item>
 
     <ion-item>
-      <ion-label>Dialog</ion-label>
-      <ion-select [(ngModel)]="libraryData.dialog">
-        <ion-option value="1">Percent</ion-option>
-        <ion-option value="2">Range</ion-option>
-      </ion-select>
+      <ion-label floating>Dialog</ion-label>
+      <ion-textarea rows="4" [(ngModel)]="libraryData.dialog"></ion-textarea>
     </ion-item>
 
-    <ion-item *ngIf='libraryData.dialog == 2'>
-      <ion-range dualKnobs="true" pin="true" [(ngModel)]="libraryData.range" min="0" max="100">
-        <ion-label range-left>0</ion-label>
-        <ion-label range-right>100</ion-label>
-      </ion-range>
-    </ion-item>
+    <ion-card>
+      <ion-card-header>
+        Pick for Dialog
+      </ion-card-header>
+      <ion-card-content> 
+        <button ion-button outline (click)="onStartRangeClicked()">
+          [start: RANGE(arg1,arg2)]
+        </button>
+        <button ion-button outline (click)="onEndRangeClicked()">
+          [end: RANGE(arg1,arg2)]
+        </button>
+        <button ion-button outline (click)="onPercentClicked()">
+          [percent: PERCENT(arg)]
+        </button>
+      </ion-card-content>
+    </ion-card>
 
     <button ion-button round (click)="onCreatedClicked()">Create</button>
     <button ion-button round (click)="onCleanDbClicked()">Clean DB</button>

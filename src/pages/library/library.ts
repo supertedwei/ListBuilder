@@ -84,13 +84,8 @@ export class Library {
       this.currentClient.options = this.libraryProvider.listItem(this.currentClient.cat, this.currentClient.subcat)
     } else if (this.currentClient.state == ClientData.STATE_DIALOG) {
       var library = this.libraryProvider.getLibraryData(this.currentClient.cat, this.currentClient.subcat, this.currentClient.item)
-      if (library.dialog == LibraryData.DIALOG_PERCENT) {
-        this.currentClient.dialogRangeMin = "0"
-        this.currentClient.dialogRangeMax = "100"
-      } else {
-        this.currentClient.dialogRangeMin = library.range.lower
-        this.currentClient.dialogRangeMax = library.range.upper
-      }
+      console.log("library.dialog : " + library.dialog)
+      this.currentClient.dialogs = this.parse(library.dialog)
     }
   }
 
@@ -107,7 +102,7 @@ export class Library {
     libraryPostData.cat = this.currentClient.cat
     libraryPostData.subcat = this.currentClient.subcat
     libraryPostData.item = this.currentClient.item
-    libraryPostData.dialogValue = this.currentClient.dialogValue
+    libraryPostData.dialogs = this.currentClient.dialogs
     this.currentClient.libraryPostDatas.push(libraryPostData)
     console.log("libraryPostDatas : " + JSON.stringify(this.currentClient.libraryPostDatas))
     this.gotoCat()
@@ -174,27 +169,47 @@ export class Library {
     this.currentClient.cat = null
     this.currentClient.subcat = null
     this.currentClient.item = null
-    this.currentClient.dialogValue = null
-    this.currentClient.dialogRangeMin = null
-    this.currentClient.dialogRangeMax = null
+    this.currentClient.dialogs = null
     this.currentClient.state = ClientData.STATE_CAT
   }
 
   setStateSubcat() {
     this.currentClient.subcat = null
     this.currentClient.item = null
-    this.currentClient.dialogValue = null
-    this.currentClient.dialogRangeMin = null
-    this.currentClient.dialogRangeMax = null
+    this.currentClient.dialogs = null
     this.currentClient.state = ClientData.STATE_SUBCAT
   }
 
   setStateItem() {
     this.currentClient.item = null
-    this.currentClient.dialogValue = null
-    this.currentClient.dialogRangeMin = null
-    this.currentClient.dialogRangeMax = null
+    this.currentClient.dialogs = null
     this.currentClient.state = ClientData.STATE_ITEM
+  }
+
+  private parse(dialogString: string): DialogData[] {
+    var result: DialogData[] = []
+
+    var objRE = new RegExp("\\[.*:.*\\(.*\\).*]", "g");
+    var dialogArray = dialogString.match(objRE); 
+    console.log("dialogArray : " + dialogArray);
+
+    for (var dialogTemplate of dialogArray) {
+      console.log("dialogTemplate : " + dialogTemplate);
+      var dialogData = new DialogData()
+      dialogData.title = dialogTemplate.match(new RegExp("\\[.*:"))[0].replace("[", "").replace(":", "").trim()
+      dialogData.keyword = dialogTemplate.match(new RegExp(":.*\\("))[0].replace(":", "").replace("(", "").trim()
+      var args = dialogTemplate.match(new RegExp("\\(.*\\)"))[0].replace("(", "").replace(")", "").split(",")
+      if (dialogData.keyword == "RANGE") {
+        dialogData.arg1 = args[0]
+        dialogData.arg2 = args[1]
+      } else if (dialogData.keyword == "PERCENT") {
+        dialogData.arg1 = args[0]
+      }
+      result.push(dialogData)
+      console.log("dialogData : " + JSON.stringify(dialogData))
+    }
+
+    return result
   }
 
 }
@@ -203,7 +218,7 @@ class LibraryPostData {
   cat: string
   subcat: string
   item: string
-  dialogValue: number
+  dialogs: DialogData[]
 }
 
 class ClientData {
@@ -217,9 +232,15 @@ class ClientData {
   cat: string
   subcat: string
   item: string
-  dialogValue: number
-  dialogRangeMin: string
-  dialogRangeMax: string
+  dialogs: DialogData[]
   options: Array<string>
   libraryPostDatas: LibraryPostData[] = []
+}
+
+class DialogData {
+  title: string
+  keyword: string
+  arg1: string
+  arg2: string
+  value: string
 }

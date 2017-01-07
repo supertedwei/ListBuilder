@@ -52,4 +52,16 @@ export class TestDbPage {
     return JSON.stringify(itemData)
   }
 
+  onStartRangeClicked() {
+    this.libraryData.dialog += "[start: RANGE(arg1,arg2)]\n";
+  }
+
+  onEndRangeClicked() {
+    this.libraryData.dialog += "[end: RANGE(arg1,arg2)]\n";
+  }
+
+  onPercentClicked() {
+    this.libraryData.dialog += "[percent: PERCENT(arg)]\n";
+  }
+
 }

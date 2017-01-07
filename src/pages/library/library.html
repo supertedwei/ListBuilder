@@ -40,13 +40,34 @@
     <ion-label>{{currentClient.item}}</ion-label>
   </ion-item>
 
-  <ion-item *ngIf="currentClient.state == 4">
-      <ion-label>Dialog/{{dialogValue}}</ion-label>
-      <ion-range pin="true" [(ngModel)]="currentClient.dialogValue" min="{{currentClient.dialogRangeMin}}" max="{{currentClient.dialogRangeMax}}">
-        <ion-label range-left>{{currentClient.dialogRangeMin}}</ion-label>
-        <ion-label range-right>{{currentClient.dialogRangeMax}}</ion-label>
-      </ion-range>
-    </ion-item>
+  <div *ngIf="currentClient.dialogs != null">
+    <div *ngFor="let dialog of currentClient.dialogs">
+      <div *ngIf="dialog.keyword == 'RANGE'">
+        <ion-item>
+          <ion-label>{{dialog.title}}</ion-label>
+          <ion-range min="{{dialog.arg1}}" max="{{dialog.arg2}}" pin="true" [(ngModel)]="dialog.value" color="secondary">
+            <ion-label range-left>{{dialog.arg1}}</ion-label>
+            <ion-label range-right>{{dialog.arg2}}</ion-label>
+          </ion-range>
+        </ion-item>
+      </div>
+      <div *ngIf="dialog.keyword == 'PERCENT'">
+        <ion-item>
+          <ion-label>{{dialog.title}}</ion-label>
+          <ion-range min="0" max="100" pin="true" [(ngModel)]="dialog.value" color="secondary">
+            <ion-label range-left>0</ion-label>
+            <ion-label range-right>100</ion-label>
+          </ion-range>
+        </ion-item>
+      </div>
+    </div>
+
+    
+  </div>
+
+  
+    
+
   
   <ion-list>
     <div ion-item *ngFor="let option of currentClient.options" (click)="onOptionClicked(option)">
