@@ -14,7 +14,7 @@ import { TestDbPage } from '../pages/test-db/test-db';
 export class MyApp {
   @ViewChild(Nav) nav: Nav;
 
-  rootPage: any = TestDbPage;
+  rootPage: any = Library;
   activePage: any;
 
   pages: Array<{title: string, component: any}>;

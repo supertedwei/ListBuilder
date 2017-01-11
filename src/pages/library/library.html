@@ -61,6 +61,16 @@
           </ion-range>
         </ion-item>
       </div>
+      <div *ngIf="dialog.keyword == 'OPTIONS'">
+        <ion-item>
+          <ion-label>{{dialog.title}}</ion-label>
+          <ion-select [(ngModel)]="dialog.value">
+            <div *ngFor="let arg of dialog.args">
+              <ion-option value="{{arg}}}">{{arg}}</ion-option>
+            </div>
+          </ion-select>
+        </ion-item>
+      </div>
     </div>
   </div>
   

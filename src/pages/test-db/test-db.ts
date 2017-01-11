@@ -4,6 +4,7 @@ import { LibraryProvider, LibraryData } from '../../providers/library-provider';
 
 import { RangeDialogPage, RangeDialogData } from '../range-dialog/range-dialog'
 import { PercentDialogPage, PercentDialogData } from '../percent-dialog/percent-dialog'
+import { OptionsDialogPage, OptionsDialogData } from '../options-dialog/options-dialog'
 
 @Component({
   selector: 'page-test-db',
@@ -77,6 +78,18 @@ export class TestDbPage {
       }
       let percentDialogData: PercentDialogData = data;
       this.libraryData.dialog += `[${percentDialogData.label}: PERCENT(${percentDialogData.arg})]\n`;
+    });
+  }
+
+  onOptionsClicked() {
+    let popover = this.popoverCtrl.create(OptionsDialogPage);
+    popover.present();
+    popover.onDidDismiss(data => {
+      if (data == null) {
+        return;
+      }
+      let optionsDialogData: OptionsDialogData = data;
+      this.libraryData.dialog += `[${optionsDialogData.label}: OPTIONS(${optionsDialogData.args.join(",")})]\n`;
     });
   }
 

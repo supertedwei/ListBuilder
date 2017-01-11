@@ -204,6 +204,8 @@ export class Library {
         dialogData.arg2 = args[1]
       } else if (dialogData.keyword == "PERCENT") {
         dialogData.arg1 = args[0]
+      } else if (dialogData.keyword == "OPTIONS") {
+        dialogData.args = args
       }
       result.push(dialogData)
       console.log("dialogData : " + JSON.stringify(dialogData))
@@ -242,5 +244,6 @@ class DialogData {
   keyword: string
   arg1: string
   arg2: string
+  args: string[] = []
   value: string
 }
