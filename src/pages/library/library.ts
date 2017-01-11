@@ -83,7 +83,7 @@ export class Library {
     } else if (this.currentClient.state == ClientData.STATE_ITEM) {
       this.currentClient.options = this.libraryProvider.listItem(this.currentClient.cat, this.currentClient.subcat)
     } else if (this.currentClient.state == ClientData.STATE_DIALOG) {
-      var library = this.libraryProvider.getLibraryData(this.currentClient.cat, this.currentClient.subcat, this.currentClient.item)
+      var library: LibraryData = this.libraryProvider.getLibraryData(this.currentClient.cat, this.currentClient.subcat, this.currentClient.item)
       console.log("library.dialog : " + library.dialog)
       this.currentClient.dialogs = this.parse(library.dialog)
     }

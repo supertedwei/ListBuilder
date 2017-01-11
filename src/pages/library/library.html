@@ -20,7 +20,7 @@
 
   <ion-item color="primary">
     <ion-label>{{currentClient.clientName}}</ion-label>
-    <button ion-button icon-only item-right (click)="onRemoveClient()">
+    <button ion-button icon-only item-left (click)="onRemoveClient()">
       <ion-icon name="close"></ion-icon>
     </button>
   </ion-item>
@@ -61,13 +61,7 @@
         </ion-item>
       </div>
     </div>
-
-    
   </div>
-
-  
-    
-
   
   <ion-list>
     <div ion-item *ngFor="let option of currentClient.options" (click)="onOptionClicked(option)">
