@@ -64,7 +64,7 @@ export class TestDbPage {
         return;
       }
       let rangeDialogData: RangeDialogData = data;
-      this.libraryData.dialog += `[${rangeDialogData.title}: RANGE(${rangeDialogData.arg1},${rangeDialogData.arg2})]\n`;
+      this.libraryData.dialog += `[${rangeDialogData.label}: RANGE(${rangeDialogData.arg1},${rangeDialogData.arg2})]\n`;
     });
   }
 
@@ -76,7 +76,7 @@ export class TestDbPage {
         return;
       }
       let percentDialogData: PercentDialogData = data;
-      this.libraryData.dialog += `[${percentDialogData.title}: PERCENT(${percentDialogData.arg})]\n`;
+      this.libraryData.dialog += `[${percentDialogData.label}: PERCENT(${percentDialogData.arg})]\n`;
     });
   }
 

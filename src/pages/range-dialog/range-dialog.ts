@@ -32,7 +32,7 @@ export class RangeDialogPage {
 }
 
 export class RangeDialogData {
-  title: String;
+  label: String;
   arg1: String;
   arg2: String;
 }
