@@ -4,6 +4,8 @@ import { MyApp } from './app.component';
 import { Library } from '../pages/library/library';
 import { Page2 } from '../pages/page2/page2';
 import { TestDbPage } from '../pages/test-db/test-db';
+import { RangeDialogPage } from '../pages/range-dialog/range-dialog'
+import { PercentDialogPage } from '../pages/percent-dialog/percent-dialog'
 import { LibraryProvider } from '../providers/library-provider';
 import { Storage } from '@ionic/storage';
 
@@ -12,7 +14,9 @@ import { Storage } from '@ionic/storage';
     MyApp,
     Library,
     Page2,
-    TestDbPage
+    TestDbPage,
+    RangeDialogPage,
+    PercentDialogPage
   ],
   imports: [
     IonicModule.forRoot(MyApp)
@@ -22,7 +26,9 @@ import { Storage } from '@ionic/storage';
     MyApp,
     Library,
     Page2,
-    TestDbPage
+    TestDbPage,
+    RangeDialogPage,
+    PercentDialogPage
   ],
   providers: [
     {provide: ErrorHandler, useClass: IonicErrorHandler},

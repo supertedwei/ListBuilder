@@ -1,6 +1,9 @@
 import { Component } from '@angular/core';
-import { NavController } from 'ionic-angular';
+import { NavController, PopoverController } from 'ionic-angular';
 import { LibraryProvider, LibraryData } from '../../providers/library-provider';
+
+import { RangeDialogPage, RangeDialogData } from '../range-dialog/range-dialog'
+import { PercentDialogPage, PercentDialogData } from '../percent-dialog/percent-dialog'
 
 @Component({
   selector: 'page-test-db',
@@ -12,7 +15,8 @@ export class TestDbPage {
   libraryData = new LibraryData()
   libraryDataList = []
 
-  constructor(public navCtrl: NavController, private libraryProvider: LibraryProvider) {
+  constructor(public navCtrl: NavController, private libraryProvider: LibraryProvider,
+      public popoverCtrl: PopoverController) {
     console.log('init TestDbPage')
     this.libraryDataList = this.libraryProvider.listAll()
     this.subscription = this.libraryProvider.listChanged$.subscribe(() => {
@@ -52,16 +56,28 @@ export class TestDbPage {
     return JSON.stringify(itemData)
   }
 
-  onStartRangeClicked() {
-    this.libraryData.dialog += "[start: RANGE(arg1,arg2)]\n";
-  }
-
-  onEndRangeClicked() {
-    this.libraryData.dialog += "[end: RANGE(arg1,arg2)]\n";
+  onRangeClicked() {
+    let popover = this.popoverCtrl.create(RangeDialogPage);
+    popover.present();
+    popover.onDidDismiss(data => {
+      if (data == null) {
+        return;
+      }
+      let rangeDialogData: RangeDialogData = data;
+      this.libraryData.dialog += `[${rangeDialogData.title}: RANGE(${rangeDialogData.arg1},${rangeDialogData.arg2})]\n`;
+    });
   }
 
   onPercentClicked() {
-    this.libraryData.dialog += "[percent: PERCENT(arg)]\n";
+    let popover = this.popoverCtrl.create(PercentDialogPage);
+    popover.present();
+    popover.onDidDismiss(data => {
+      if (data == null) {
+        return;
+      }
+      let percentDialogData: PercentDialogData = data;
+      this.libraryData.dialog += `[${percentDialogData.title}: PERCENT(${percentDialogData.arg})]\n`;
+    });
   }
 
 }
