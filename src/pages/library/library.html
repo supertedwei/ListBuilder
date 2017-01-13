@@ -23,7 +23,7 @@
     <button ion-button icon-only item-left (click)="onRemoveClient()">
       <ion-icon name="close"></ion-icon>
     </button>
-    <button ion-button round item-right *ngIf="isShowPostButton()" (click)="onPostClicked()">Send</button>
+    <button ion-button round item-right *ngIf="isShowPostButton()" (click)="onSendClicked()">Send</button>
   </ion-item>
 
   <ion-item *ngIf="currentClient.cat != null" style="background-color: #b0b0b0;" (click)="gotoCat()">

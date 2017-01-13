@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { Storage } from '@ionic/storage';
 import { NavController, AlertController, ActionSheetController } from 'ionic-angular';
 import { LibraryProvider, LibraryData } from '../../providers/library-provider';
+import { EmailProvider } from '../../providers/email-provider';
 
 @Component({
   selector: 'page-library',
@@ -16,7 +17,7 @@ export class Library {
 
   constructor(public navCtrl: NavController, private libraryProvider: LibraryProvider,
       private alertCtrl: AlertController, private actionSheetCtrl: ActionSheetController,
-      private storage: Storage) {
+      private storage: Storage, private emailProvider: EmailProvider) {
     this.subscription = this.libraryProvider.listChanged$.subscribe(() => {
       console.log('[Library] libraryProvider emitted')
       this.prepareOptions()
@@ -108,10 +109,17 @@ export class Library {
     this.gotoCat()
   }
 
-  onPostClicked() {
-    console.log("onPostClicked")
-    this.currentClient.libraryPostDatas.length = 0
-    this.gotoCat()
+  onSendClicked() {
+    console.log("onSendClicked")
+    var p: Promise<any> = this.emailProvider.send(JSON.stringify(this.currentClient));
+    console.log("Promise : " + p);
+    p.then(data => 
+      console.log("Send : " + data)
+    ).catch(error =>
+      console.log("error : " + error)
+    );
+    // this.currentClient.libraryPostDatas.length = 0
+    // this.gotoCat()
   }
 
   toString(itemData) {

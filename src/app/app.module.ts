@@ -8,6 +8,7 @@ import { RangeDialogPage } from '../pages/range-dialog/range-dialog'
 import { PercentDialogPage } from '../pages/percent-dialog/percent-dialog'
 import { OptionsDialogPage } from '../pages/options-dialog/options-dialog'
 import { LibraryProvider } from '../providers/library-provider';
+import { EmailProvider } from '../providers/email-provider';
 import { Storage } from '@ionic/storage';
 
 @NgModule({
@@ -36,7 +37,8 @@ import { Storage } from '@ionic/storage';
   providers: [
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     Storage,
-    LibraryProvider
+    LibraryProvider,
+    EmailProvider
   ]
 })
 export class AppModule {}
