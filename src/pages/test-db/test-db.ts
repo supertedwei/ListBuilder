@@ -1,6 +1,9 @@
 import { Component } from '@angular/core';
-import { NavController, PopoverController } from 'ionic-angular';
-import { LibraryProvider, LibraryData } from '../../providers/library-provider';
+import { NavController, PopoverController, LoadingController, Loading } from 'ionic-angular';
+
+import { LibraryProvider } from '../../providers/library-provider';
+import { LibraryService } from '../../providers/library-service'
+import { LibraryData } from '../../model/library-data'
 
 import { RangeDialogPage, RangeDialogData } from '../range-dialog/range-dialog'
 import { PercentDialogPage, PercentDialogData } from '../percent-dialog/percent-dialog'
@@ -15,9 +18,11 @@ export class TestDbPage {
   private subscription
   libraryData = new LibraryData()
   libraryDataList = []
+  loader: Loading
 
   constructor(public navCtrl: NavController, private libraryProvider: LibraryProvider,
-      public popoverCtrl: PopoverController) {
+      public popoverCtrl: PopoverController, public libraryService: LibraryService,
+      public loadingCtrl: LoadingController) {
     console.log('init TestDbPage')
     this.libraryDataList = this.libraryProvider.listAll()
     this.subscription = this.libraryProvider.listChanged$.subscribe(() => {
@@ -33,12 +38,6 @@ export class TestDbPage {
 
   ionViewDidLoad() {
     console.log('Hello TestDbPage Page') 
-    // let data = new LibraryData();
-    // data.cat = "cat_001"
-    // data.subcat = "subcat_001"
-    // data.item = "item_001"
-    // data.dialog = "dialog_001"
-    // this.libraryProvider.createOrUpdate(data);
   }
 
   onCreatedClicked() {
@@ -93,4 +92,31 @@ export class TestDbPage {
     });
   }
 
+  onDownloadClicked() {
+
+  }
+
+  onUploadClicked() {
+    this.presentLoading()
+    this.libraryService.syncToServer(this.libraryDataList).then(() => {
+      this.dismissLoding()
+    }).catch(() => {
+      this.dismissLoding()
+    });
+  }
+
+  presentLoading() {
+    this.loader = this.loadingCtrl.create({
+      content: "Please wait...",
+      duration: 3000
+    });
+    this.loader.present();
+  }
+
+  dismissLoding() {
+    if (this.loader != null) {
+      this.loader.dismiss()
+      this.loader = null
+    }
+  }
 }

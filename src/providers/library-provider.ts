@@ -2,6 +2,8 @@ import { Injectable, EventEmitter } from '@angular/core';
 import { Storage } from '@ionic/storage';
 import { UUID } from 'angular2-uuid';
 
+import { LibraryData } from '../model/library-data'
+
 @Injectable()
 export class LibraryProvider {
 
@@ -82,12 +84,4 @@ export class LibraryProvider {
     this.storage.set('LibraryDataList', jsonString)
   }
 
-}
-
-export class LibraryData {
-  public id: string
-  public cat: string
-  public subcat: string
-  public item: string
-  public dialog: string = ""
 }

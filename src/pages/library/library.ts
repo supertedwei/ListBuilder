@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
 import { Storage } from '@ionic/storage';
 import { NavController, AlertController, ActionSheetController } from 'ionic-angular';
-import { LibraryProvider, LibraryData } from '../../providers/library-provider';
+import { LibraryProvider } from '../../providers/library-provider';
+import { LibraryData } from '../../model/library-data'
 import { EmailProvider } from '../../providers/email-provider';
 
 @Component({
