@@ -93,7 +93,13 @@ export class TestDbPage {
   }
 
   onDownloadClicked() {
-
+    this.presentLoading()
+    this.libraryService.syncToClient().then((list) => {
+      this.libraryDataList = list
+      this.dismissLoding()
+    }).catch(() => {
+      this.dismissLoding()
+    });
   }
 
   onUploadClicked() {

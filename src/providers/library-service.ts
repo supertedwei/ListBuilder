@@ -4,6 +4,23 @@ import 'rxjs/add/operator/map';
 
 import { LibraryData } from '../model/library-data'
 
+/*
+1. getAllTestDbItems (GET)
+example: http://better-computer.com/testservice/Service2.svc/getAllTestDbItems
+
+2. CreateTestDbItem (POST)
+example: http://better-computer.com/testservice/Service2.svc/createTestDbItem
+
+http://better-computer.com/testservice/Service2.svc/createTestDbItems
+takes multiple json items in an array
+
+3. deleteTestDbItem (GET)
+example: http://better-computer.com/testservice/Service2.svc/deleteTestDbItem/2
+
+http://better-computer.com/testservice/Service2.svc/deleteAllTestDbItems
+deletes all the items
+*/
+
 @Injectable()
 export class LibraryService {
 
@@ -13,14 +30,40 @@ export class LibraryService {
   }
 
   syncToServer(list: LibraryData[]): Promise<any> {
-    return Promise.all([this.deleteAllTestDbItems(), this.createTestDbItems(list)]);
+    return this.deleteAllTestDbItems().then(() => {
+      return this.createTestDbItems(list)}
+    );
   }
 
   syncToClient() {
-
+    return this.getAllTestDbItems()
   }
 
-  private deleteAllTestDbItems() {
+  private getAllTestDbItems(): Promise<any> {
+    let self = this
+    var promise = new Promise(function(resolve, reject) {
+      var url = self.SERVER_URL + "/getAllTestDbItems";
+      self.http.get(url).map(res => res.json()).subscribe(data => {
+        console.log("getAllTestDbItems : " + JSON.stringify(data))
+        var list: LibraryData[] = []
+        for (let item of data) {
+          let libraryData = new LibraryData()
+          libraryData.cat = item.cat
+          libraryData.subcat = item.subcat
+          libraryData.item = item.item
+          libraryData.dialog = item.dialog
+          list.push(libraryData)
+        }
+        resolve(list)
+      }, error => {
+        console.log("error : " + JSON.stringify(error))
+        reject(error)
+      });
+    });
+    return promise;
+  }
+
+  private deleteAllTestDbItems(): Promise<any> {
     let self = this
     var promise = new Promise(function(resolve, reject) {
       var url = self.SERVER_URL + "/deleteAllTestDbItems";
