@@ -121,7 +121,11 @@ export class Library {
     for (let libraryPostData of this.currentClient.libraryPostDatas) {
       var dialogMessage = libraryPostData.rawDialog;
       for (let dialogItem of libraryPostData.dialogs) {
-        dialogMessage = dialogMessage.replace(dialogItem.formula, dialogItem.value);
+        if (dialogItem.keyword == "PERCENT") {
+          dialogMessage = dialogMessage.replace(dialogItem.formula, dialogItem.value + "%");
+        } else {
+          dialogMessage = dialogMessage.replace(dialogItem.formula, dialogItem.value);
+        }
         console.log("dialogMessage : " + dialogMessage)
       }
       fullMessage = fullMessage + dialogMessage + "."
@@ -135,7 +139,6 @@ export class Library {
     ).catch(error =>
       console.log("error : " + error)
     );
-    this.currentClient.libraryPostDatas.length = 0
     this.gotoCat()
   }
 
