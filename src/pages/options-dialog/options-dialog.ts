@@ -38,6 +38,5 @@ export class OptionsDialogPage {
 }
 
 export class OptionsDialogData {
-  label: String;
   args: String[] = [];
 }

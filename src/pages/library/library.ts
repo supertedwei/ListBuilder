@@ -87,6 +87,7 @@ export class Library {
     } else if (this.currentClient.state == ClientData.STATE_DIALOG) {
       var library: LibraryData = this.libraryProvider.getLibraryData(this.currentClient.cat, this.currentClient.subcat, this.currentClient.item)
       console.log("library.dialog : " + library.dialog)
+      this.currentClient.rawDialog = library.dialog
       this.currentClient.dialogs = this.parse(library.dialog)
     }
   }
@@ -104,6 +105,7 @@ export class Library {
     libraryPostData.cat = this.currentClient.cat
     libraryPostData.subcat = this.currentClient.subcat
     libraryPostData.item = this.currentClient.item
+    libraryPostData.rawDialog = this.currentClient.rawDialog
     libraryPostData.dialogs = this.currentClient.dialogs
     this.currentClient.libraryPostDatas.push(libraryPostData)
     console.log("libraryPostDatas : " + JSON.stringify(this.currentClient.libraryPostDatas))
@@ -112,15 +114,29 @@ export class Library {
 
   onSendClicked() {
     console.log("onSendClicked")
-    var p: Promise<any> = this.emailProvider.send(JSON.stringify(this.currentClient));
+    let jsonLibraryPostDatas = JSON.stringify(this.currentClient.libraryPostDatas);
+    console.log("jsonLibraryPostDatas : " + jsonLibraryPostDatas)
+
+    var fullMessage = "";
+    for (let libraryPostData of this.currentClient.libraryPostDatas) {
+      var dialogMessage = libraryPostData.rawDialog;
+      for (let dialogItem of libraryPostData.dialogs) {
+        dialogMessage = dialogMessage.replace(dialogItem.formula, dialogItem.value);
+        console.log("dialogMessage : " + dialogMessage)
+      }
+      fullMessage = fullMessage + dialogMessage + "."
+    }
+    console.log("fullMessage : " + fullMessage)
+
+    var p: Promise<any> = this.emailProvider.send(fullMessage);
     console.log("Promise : " + p);
     p.then(data => 
       console.log("Send : " + data)
     ).catch(error =>
       console.log("error : " + error)
     );
-    // this.currentClient.libraryPostDatas.length = 0
-    // this.gotoCat()
+    this.currentClient.libraryPostDatas.length = 0
+    this.gotoCat()
   }
 
   toString(itemData) {
@@ -178,6 +194,7 @@ export class Library {
     this.currentClient.cat = null
     this.currentClient.subcat = null
     this.currentClient.item = null
+    this.currentClient.rawDialog = null
     this.currentClient.dialogs = null
     this.currentClient.state = ClientData.STATE_CAT
   }
@@ -185,12 +202,14 @@ export class Library {
   setStateSubcat() {
     this.currentClient.subcat = null
     this.currentClient.item = null
+    this.currentClient.rawDialog = null
     this.currentClient.dialogs = null
     this.currentClient.state = ClientData.STATE_SUBCAT
   }
 
   setStateItem() {
     this.currentClient.item = null
+    this.currentClient.rawDialog = null
     this.currentClient.dialogs = null
     this.currentClient.state = ClientData.STATE_ITEM
   }
@@ -198,15 +217,15 @@ export class Library {
   private parse(dialogString: string): DialogData[] {
     var result: DialogData[] = []
 
-    var objRE = new RegExp("\\[.*:.*\\(.*\\).*]", "g");
+    var objRE = new RegExp("\\[[A-Z]*\\((\\w|\\,)*\\)\\]", "g");
     var dialogArray = dialogString.match(objRE); 
     console.log("dialogArray : " + dialogArray);
 
     for (var dialogTemplate of dialogArray) {
       console.log("dialogTemplate : " + dialogTemplate);
       var dialogData = new DialogData()
-      dialogData.title = dialogTemplate.match(new RegExp("\\[.*:"))[0].replace("[", "").replace(":", "").trim()
-      dialogData.keyword = dialogTemplate.match(new RegExp(":.*\\("))[0].replace(":", "").replace("(", "").trim()
+      dialogData.formula = dialogTemplate
+      dialogData.keyword = dialogTemplate.match(new RegExp(".*\\("))[0].replace("[", "").replace("(", "").trim()
       var args = dialogTemplate.match(new RegExp("\\(.*\\)"))[0].replace("(", "").replace(")", "").split(",")
       if (dialogData.keyword == "RANGE") {
         dialogData.arg1 = args[0]
@@ -229,6 +248,7 @@ class LibraryPostData {
   cat: string
   subcat: string
   item: string
+  rawDialog: string
   dialogs: DialogData[]
 }
 
@@ -243,13 +263,14 @@ class ClientData {
   cat: string
   subcat: string
   item: string
+  rawDialog: string
   dialogs: DialogData[]
   options: Array<string>
   libraryPostDatas: LibraryPostData[] = []
 }
 
 class DialogData {
-  title: string
+  formula: string
   keyword: string
   arg1: string
   arg2: string

@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, PopoverController, LoadingController, Loading } from 'ionic-angular';
+import { NavController, PopoverController, LoadingController, Loading, ActionSheetController } from 'ionic-angular';
 
 import { LibraryProvider } from '../../providers/library-provider';
 import { LibraryService } from '../../providers/library-service'
@@ -22,7 +22,7 @@ export class TestDbPage {
 
   constructor(public navCtrl: NavController, private libraryProvider: LibraryProvider,
       public popoverCtrl: PopoverController, public libraryService: LibraryService,
-      public loadingCtrl: LoadingController) {
+      public loadingCtrl: LoadingController, public actionSheetCtrl: ActionSheetController) {
     console.log('init TestDbPage')
     this.libraryDataList = this.libraryProvider.listAll()
     this.subscription = this.libraryProvider.listChanged$.subscribe(() => {
@@ -56,6 +56,35 @@ export class TestDbPage {
     return JSON.stringify(itemData)
   }
 
+  onPickForDialogClicked() {
+    let self = this
+    let actionSheet = this.actionSheetCtrl.create({
+      title: 'Pick For Dialog',
+      buttons: [
+        {
+          text: 'RANGE',
+          handler: () => {
+            console.log('RANGE clicked');
+            self.onRangeClicked()
+          }
+        },{
+          text: 'PERCENT',
+          handler: () => {
+            console.log('PERCENT clicked');
+            self.onPercentClicked()
+          }
+        },{
+          text: 'OPTIONS',
+          handler: () => {
+            console.log('OPTIONS clicked');
+            self.onOptionsClicked()
+          }
+        }
+      ]
+    });
+    actionSheet.present();
+  }
+
   onRangeClicked() {
     let popover = this.popoverCtrl.create(RangeDialogPage);
     popover.present();
@@ -64,7 +93,7 @@ export class TestDbPage {
         return;
       }
       let rangeDialogData: RangeDialogData = data;
-      this.libraryData.dialog += `[${rangeDialogData.label}: RANGE(${rangeDialogData.arg1},${rangeDialogData.arg2})]\n`;
+      this.libraryData.dialog += `[RANGE(${rangeDialogData.arg1},${rangeDialogData.arg2})]`;
     });
   }
 
@@ -76,7 +105,7 @@ export class TestDbPage {
         return;
       }
       let percentDialogData: PercentDialogData = data;
-      this.libraryData.dialog += `[${percentDialogData.label}: PERCENT(${percentDialogData.arg})]\n`;
+      this.libraryData.dialog += `[PERCENT(${percentDialogData.arg})]`;
     });
   }
 
@@ -88,7 +117,7 @@ export class TestDbPage {
         return;
       }
       let optionsDialogData: OptionsDialogData = data;
-      this.libraryData.dialog += `[${optionsDialogData.label}: OPTIONS(${optionsDialogData.args.join(",")})]\n`;
+      this.libraryData.dialog += `[OPTIONS(${optionsDialogData.args.join(",")})]`;
     });
   }
 

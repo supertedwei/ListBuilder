@@ -32,6 +32,5 @@ export class PercentDialogPage {
 }
 
 export class PercentDialogData {
-  label: String;
   arg: String;
 }

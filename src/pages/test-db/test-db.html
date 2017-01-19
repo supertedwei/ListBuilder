@@ -40,26 +40,10 @@
     </ion-item>
 
     <ion-item>
+      <button ion-button clear item-right (click)="onPickForDialogClicked()">Pick For Dialog</button>
       <ion-label floating>Dialog</ion-label>
       <ion-textarea rows="4" [(ngModel)]="libraryData.dialog"></ion-textarea>
     </ion-item>
-
-    <ion-card>
-      <ion-card-header>
-        Pick for Dialog
-      </ion-card-header>
-      <ion-card-content> 
-        <button ion-button outline (click)="onRangeClicked()">
-          [title: RANGE(arg1,arg2)]
-        </button>
-        <button ion-button outline (click)="onPercentClicked()">
-          [title: PERCENT(arg)]
-        </button>
-        <button ion-button outline (click)="onOptionsClicked()">
-          [title: OPTIONS(arg1, arg2, ...)]
-        </button>
-      </ion-card-content>
-    </ion-card>
 
     <button ion-button round (click)="onCreatedClicked()">Create</button>
     <button ion-button round (click)="onCleanDbClicked()">Clean DB</button>
