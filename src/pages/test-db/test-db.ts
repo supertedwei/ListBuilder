@@ -96,6 +96,7 @@ export class TestDbPage {
     this.presentLoading()
     this.libraryService.syncToClient().then((list) => {
       this.libraryDataList = list
+      this.libraryProvider.resetAll(list)
       this.dismissLoding()
     }).catch(() => {
       this.dismissLoding()

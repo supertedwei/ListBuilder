@@ -78,6 +78,11 @@ export class LibraryProvider {
     }
   }
 
+  resetAll(inputList: LibraryData[]) {
+    this.list = inputList;
+    this.saveToDb();
+  }
+
   private saveToDb() {
     let jsonString = JSON.stringify(this.list)
     console.log('jsonString : ', jsonString)
