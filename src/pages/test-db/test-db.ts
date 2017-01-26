@@ -20,6 +20,16 @@ export class TestDbPage {
   libraryDataList = []
   loader: Loading
 
+   ev = {
+    target : {
+      getBoundingClientRect : () => {
+        return {
+          top: '0'
+        };
+      }
+    }
+  };
+
   constructor(public navCtrl: NavController, private libraryProvider: LibraryProvider,
       public popoverCtrl: PopoverController, public libraryService: LibraryService,
       public loadingCtrl: LoadingController, public actionSheetCtrl: ActionSheetController) {
@@ -87,7 +97,7 @@ export class TestDbPage {
 
   onRangeClicked() {
     let popover = this.popoverCtrl.create(RangeDialogPage);
-    popover.present();
+    popover.present({ev: this.ev});
     popover.onDidDismiss(data => {
       if (data == null) {
         return;
@@ -99,7 +109,7 @@ export class TestDbPage {
 
   onPercentClicked() {
     let popover = this.popoverCtrl.create(PercentDialogPage);
-    popover.present();
+    popover.present({ev: this.ev});
     popover.onDidDismiss(data => {
       if (data == null) {
         return;
@@ -111,7 +121,7 @@ export class TestDbPage {
 
   onOptionsClicked() {
     let popover = this.popoverCtrl.create(OptionsDialogPage);
-    popover.present();
+    popover.present({ev: this.ev});
     popover.onDidDismiss(data => {
       if (data == null) {
         return;
