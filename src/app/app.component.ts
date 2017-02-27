@@ -8,6 +8,7 @@ import { AngularFire } from 'angularfire2';
 import { Library } from '../pages/library/library';
 import { TestDbPage } from '../pages/test-db/test-db';
 import { EmailLoginPage } from '../pages/email-login/email-login';
+import { User } from '../common/user';
 
 
 @Component({
@@ -58,12 +59,12 @@ export class MyApp {
         console.log("MyApp : user - " + JSON.stringify(user));
         if (user != null && user.auth.emailVerified) {
           this.showMenu = true;
-          // User.uid = user.auth.uid
-          // User.email = user.auth.email
+          User.uid = user.auth.uid
+          User.email = user.auth.email
           this.nav.setRoot(Library)
         } else {
           this.showMenu = false;
-          // User.reset();
+          User.reset();
           this.nav.setRoot(EmailLoginPage)
         }
       });
