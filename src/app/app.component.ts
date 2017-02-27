@@ -9,7 +9,7 @@ import { Library } from '../pages/library/library';
 import { TestDbPage } from '../pages/test-db/test-db';
 import { EmailLoginPage } from '../pages/email-login/email-login';
 import { User } from '../common/user';
-
+import { SettingsPage } from '../pages/settings/settings';
 
 @Component({
   templateUrl: 'app.html'
@@ -31,8 +31,8 @@ export class MyApp {
     // used for an example of ngFor and navigation
     this.pages = [
       { title: 'Library', component: Library },
-      // { title: 'Page Two', component: Page2 },
-      { title: 'Test DB Page', component: TestDbPage }
+      { title: 'Test DB Page', component: TestDbPage },
+      { title: 'Settings', component: SettingsPage },
     ];
 
     this.activePage = this.pages[0];
