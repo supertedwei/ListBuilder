@@ -1,6 +1,11 @@
 import { NgModule, ErrorHandler } from '@angular/core';
 import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
 import { MyApp } from './app.component';
+
+// Import the AF2 Module
+import { AngularFireModule } from 'angularfire2';
+
+import { FirebaseConfig } from './config';
 import { Library } from '../pages/library/library';
 import { TestDbPage } from '../pages/test-db/test-db';
 import { RangeDialogPage } from '../pages/range-dialog/range-dialog'
@@ -10,6 +15,8 @@ import { LibraryProvider } from '../providers/library-provider';
 import { LibraryService } from '../providers/library-service'
 import { EmailProvider } from '../providers/email-provider';
 import { Storage } from '@ionic/storage';
+import { EmailSignUpPage } from '../pages/email-sign-up/email-sign-up';
+import { EmailLoginPage } from '../pages/email-login/email-login';
 
 @NgModule({
   declarations: [
@@ -18,10 +25,13 @@ import { Storage } from '@ionic/storage';
     TestDbPage,
     RangeDialogPage,
     PercentDialogPage,
-    OptionsDialogPage
+    OptionsDialogPage,
+    EmailSignUpPage,
+    EmailLoginPage
   ],
   imports: [
-    IonicModule.forRoot(MyApp)
+    IonicModule.forRoot(MyApp),
+    AngularFireModule.initializeApp(FirebaseConfig),
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -30,7 +40,9 @@ import { Storage } from '@ionic/storage';
     TestDbPage,
     RangeDialogPage,
     PercentDialogPage,
-    OptionsDialogPage
+    OptionsDialogPage,
+    EmailSignUpPage,
+    EmailLoginPage
   ],
   providers: [
     {provide: ErrorHandler, useClass: IonicErrorHandler},

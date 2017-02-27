@@ -1,0 +1,31 @@
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>Email Login</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+
+  <ion-list>
+
+    <ion-item>
+      <ion-label stacked>Email</ion-label>
+      <ion-input type="text" [(ngModel)]="email"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label stacked>Password</ion-label>
+      <ion-input type="password" [(ngModel)]="password"></ion-input>
+    </ion-item>
+
+  </ion-list>
+
+  <button ion-button *ngIf="!waiting" (click)="onLoginClicked()">Login</button>
+  <button ion-button outline *ngIf="!waiting" (click)="onSignupClicked()">Sign Up</button>
+
+  <ion-spinner *ngIf="waiting"></ion-spinner>
+
+</ion-content>

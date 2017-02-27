@@ -3,9 +3,11 @@ import { Nav, Platform } from 'ionic-angular';
 import { StatusBar, Splashscreen } from 'ionic-native';
 import { AppVersion } from 'ionic-native';
 
+import { AngularFire } from 'angularfire2';
+
 import { Library } from '../pages/library/library';
-//import { Page2 } from '../pages/page2/page2';
 import { TestDbPage } from '../pages/test-db/test-db';
+import { EmailLoginPage } from '../pages/email-login/email-login';
 
 
 @Component({
@@ -14,6 +16,7 @@ import { TestDbPage } from '../pages/test-db/test-db';
 export class MyApp {
   @ViewChild(Nav) nav: Nav;
 
+  showMenu = false;
   rootPage: any = Library;
   activePage: any;
 
@@ -21,7 +24,7 @@ export class MyApp {
 
   versionNumber = 'not available';
 
-  constructor(public platform: Platform) {
+  constructor(public platform: Platform, public af: AngularFire) {
     this.initializeApp();
 
     // used for an example of ngFor and navigation
@@ -50,6 +53,20 @@ export class MyApp {
       } else {
         console.log('not a cordova platform');
       }
+
+      this.af.auth.subscribe(user => {
+        console.log("MyApp : user - " + JSON.stringify(user));
+        if (user != null && user.auth.emailVerified) {
+          this.showMenu = true;
+          // User.uid = user.auth.uid
+          // User.email = user.auth.email
+          this.nav.setRoot(Library)
+        } else {
+          this.showMenu = false;
+          // User.reset();
+          this.nav.setRoot(EmailLoginPage)
+        }
+      });
 
     });
   }
