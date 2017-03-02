@@ -3,48 +3,45 @@ import { Http } from '@angular/http';
 import 'rxjs/add/operator/map';
 
 import { LibraryData } from '../model/library-data'
+import { User } from '../common/user';
 
 /*
-1. getAllTestDbItems (GET)
-example: http://better-computer.com/testservice/Service2.svc/getAllTestDbItems
+1. getting JSON tablfor user (GET)
+http://better-computer.com/NoteWriter/Service1.svc/getUserItems/narfdaddy@gmail.com
 
-2. CreateTestDbItem (POST)
-example: http://better-computer.com/testservice/Service2.svc/createTestDbItem
+2. deleting JSON for user (GET)
+http://better-computer.com/NoteWriter/Service1.svc/deleteUserItems/narfdaddy@gmail.com
 
-http://better-computer.com/testservice/Service2.svc/createTestDbItems
-takes multiple json items in an array
-
-3. deleteTestDbItem (GET)
-example: http://better-computer.com/testservice/Service2.svc/deleteTestDbItem/2
-
-http://better-computer.com/testservice/Service2.svc/deleteAllTestDbItems
-deletes all the items
+3. uploading JSON for user (POST)
+http://better-computer.com/NoteWriter/Service1.svc/addUserItems/
+==> JSON array (as before, except each item should now include a usr attribute)
 */
 
 @Injectable()
 export class LibraryService {
 
-  SERVER_URL = "http://better-computer.com/testservice/Service2.svc"
+  SERVER_URL = "http://better-computer.com/NoteWriter/Service1.svc"
 
   constructor(public http: Http) {
   }
 
   syncToServer(list: LibraryData[]): Promise<any> {
-    return this.deleteAllTestDbItems().then(() => {
-      return this.createTestDbItems(list)}
+    return this.deleteUserItems().then(() => {
+      return this.addUserItems(list)}
     );
   }
 
   syncToClient() {
-    return this.getAllTestDbItems()
+    return this.getUserItems()
   }
 
-  private getAllTestDbItems(): Promise<any> {
+  private getUserItems(): Promise<any> {
     let self = this
     var promise = new Promise(function(resolve, reject) {
-      var url = self.SERVER_URL + "/getAllTestDbItems";
+      var url = self.SERVER_URL + "/getUserItems/" + encodeURIComponent(User.email);
+      console.log("url : " + url)
       self.http.get(url).map(res => res.json()).subscribe(data => {
-        console.log("getAllTestDbItems : " + JSON.stringify(data))
+        console.log("getUserItems : " + JSON.stringify(data))
         var list: LibraryData[] = []
         for (let item of data) {
           let libraryData = new LibraryData()
@@ -63,12 +60,12 @@ export class LibraryService {
     return promise;
   }
 
-  private deleteAllTestDbItems(): Promise<any> {
+  private deleteUserItems(): Promise<any> {
     let self = this
     var promise = new Promise(function(resolve, reject) {
-      var url = self.SERVER_URL + "/deleteAllTestDbItems";
+      var url = self.SERVER_URL + "/deleteUserItems/" + encodeURIComponent(User.email);
       self.http.get(url).map(res => res.json()).subscribe(data => {
-        console.log("deleteAllTestDbItems : " + JSON.stringify(data))
+        console.log("deleteUserItems : " + JSON.stringify(data))
         resolve(data)
       }, error => {
         console.log("error : " + JSON.stringify(error))
@@ -78,7 +75,7 @@ export class LibraryService {
     return promise;
   }
 
-  private createTestDbItems(list: LibraryData[]): Promise<any> {
+  private addUserItems(list: LibraryData[]): Promise<any> {
     let self = this
     var promise = new Promise(function(resolve, reject) {
       var postData = [];
@@ -87,14 +84,15 @@ export class LibraryService {
           cat: item.cat,
           subcat: item.subcat,
           item: item.item,
-          dialog: item.dialog
+          dialog: item.dialog,
+          usr: User.email
         })
       }
       let strPostData = JSON.stringify(postData)
       console.log("strPostData : " + strPostData)
-      var url = self.SERVER_URL + "/createTestDbItems";
+      var url = self.SERVER_URL + "/addUserItems";
       self.http.post(url, strPostData).map(res => res.json()).subscribe(data => {
-        console.log("createTestDbItems : " + JSON.stringify(data))
+        console.log("addUserItems : " + JSON.stringify(data))
         resolve(data)
       }, error => {
         console.log("error : " + JSON.stringify(error))
