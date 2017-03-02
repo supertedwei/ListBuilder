@@ -62,14 +62,14 @@
         </ion-item>
       </div>
       <div *ngIf="dialog.keyword == 'OPTIONS'">
-        <ion-item>
-          <ion-label>{{dialog.title}}</ion-label>
-          <ion-select [(ngModel)]="dialog.value">
-            <div *ngFor="let arg of dialog.args">
-              <ion-option value="{{arg}}}">{{arg}}</ion-option>
-            </div>
-          </ion-select>
-        </ion-item>
+        <ion-list radio-group [(ngModel)]="dialog.value">
+          <div *ngFor="let arg of dialog.args">
+            <ion-item>
+              <ion-label>{{arg}}</ion-label>
+              <ion-radio value="{{arg}}"></ion-radio>
+            </ion-item>
+          </div>
+        </ion-list>
       </div>
     </div>
   </div>
