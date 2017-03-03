@@ -218,9 +218,10 @@ export class Library {
   }
 
   private parse(dialogString: string): DialogData[] {
+    dialogString = dialogString.replace(" ", "");
     var result: DialogData[] = []
 
-    var objRE = new RegExp("\\[[A-Z]*\\((\\w|\\,)*\\)\\]", "g");
+    var objRE = new RegExp("\\[\\w*:?[A-Z]*\\((\\w|\\,)*\\)\\]", "g");
     var dialogArray = dialogString.match(objRE); 
     console.log("dialogArray : " + dialogArray);
 
@@ -228,7 +229,13 @@ export class Library {
       console.log("dialogTemplate : " + dialogTemplate);
       var dialogData = new DialogData()
       dialogData.formula = dialogTemplate
-      dialogData.keyword = dialogTemplate.match(new RegExp(".*\\("))[0].replace("[", "").replace("(", "").trim()
+      var matchTitle = dialogTemplate.match(new RegExp("\\[\\w*:"));
+      if (matchTitle != null) {
+        dialogData.title = matchTitle[0].replace("[", "").replace(":", "")
+        dialogData.keyword = dialogTemplate.match(new RegExp(":[A-Z]*\\("))[0].replace("(", "").replace(":", "").trim()
+      } else {
+        dialogData.keyword = dialogTemplate.match(new RegExp(".*\\("))[0].replace("[", "").replace("(", "").trim()
+      }
       var args = dialogTemplate.match(new RegExp("\\(.*\\)"))[0].replace("(", "").replace(")", "").split(",")
       if (dialogData.keyword == "RANGE") {
         dialogData.arg1 = args[0]
@@ -274,6 +281,7 @@ class ClientData {
 
 class DialogData {
   formula: string
+  title: string
   keyword: string
   arg1: string
   arg2: string
