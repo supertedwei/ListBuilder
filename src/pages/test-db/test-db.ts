@@ -72,6 +72,12 @@ export class TestDbPage {
       title: 'Pick For Dialog',
       buttons: [
         {
+          text: 'TEXT',
+          handler: () => {
+            console.log('TEXT clicked');
+            self.onTextClicked()
+          }
+        },{
           text: 'RANGE',
           handler: () => {
             console.log('RANGE clicked');
@@ -93,6 +99,10 @@ export class TestDbPage {
       ]
     });
     actionSheet.present();
+  }
+
+  onTextClicked() {
+    this.libraryData.dialog += `[TEXT]`;
   }
 
   onRangeClicked() {

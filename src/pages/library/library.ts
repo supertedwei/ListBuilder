@@ -221,7 +221,7 @@ export class Library {
     dialogString = dialogString.replace(" ", "");
     var result: DialogData[] = []
 
-    var objRE = new RegExp("\\[\\w*:?[A-Z]*\\((\\w|\\,)*\\)\\]", "g");
+    var objRE = new RegExp("\\[\\w*:?[A-Z]*(\\((\\w|\\,)*\\))?\\]", "g");
     var dialogArray = dialogString.match(objRE); 
     console.log("dialogArray : " + dialogArray);
 
@@ -232,18 +232,22 @@ export class Library {
       var matchTitle = dialogTemplate.match(new RegExp("\\[\\w*:"));
       if (matchTitle != null) {
         dialogData.title = matchTitle[0].replace("[", "").replace(":", "")
-        dialogData.keyword = dialogTemplate.match(new RegExp(":[A-Z]*\\("))[0].replace("(", "").replace(":", "").trim()
+        dialogData.keyword = dialogTemplate.match(new RegExp(":[A-Z]*(\\(|])"))[0].replace("]", "").replace("(", "").replace(":", "").trim()
       } else {
-        dialogData.keyword = dialogTemplate.match(new RegExp(".*\\("))[0].replace("[", "").replace("(", "").trim()
+        dialogData.keyword = dialogTemplate.match(new RegExp(".*(\\(|])"))[0].replace("]", "").replace("[", "").replace("(", "").trim()
       }
-      var args = dialogTemplate.match(new RegExp("\\(.*\\)"))[0].replace("(", "").replace(")", "").split(",")
-      if (dialogData.keyword == "RANGE") {
-        dialogData.arg1 = args[0]
-        dialogData.arg2 = args[1]
-      } else if (dialogData.keyword == "PERCENT") {
-        dialogData.arg1 = args[0]
-      } else if (dialogData.keyword == "OPTIONS") {
-        dialogData.args = args
+      if (dialogData.keyword == "TEXT") {
+        // no arguments
+      } else {
+        var args = dialogTemplate.match(new RegExp("\\(.*\\)"))[0].replace("(", "").replace(")", "").split(",")
+        if (dialogData.keyword == "RANGE") {
+          dialogData.arg1 = args[0]
+          dialogData.arg2 = args[1]
+        } else if (dialogData.keyword == "PERCENT") {
+          dialogData.arg1 = args[0]
+        } else if (dialogData.keyword == "OPTIONS") {
+          dialogData.args = args
+        }
       }
       result.push(dialogData)
       console.log("dialogData : " + JSON.stringify(dialogData))

@@ -43,6 +43,14 @@
 
   <div *ngIf="currentClient.dialogs != null">
     <div *ngFor="let dialog of currentClient.dialogs">
+      <div *ngIf="dialog.keyword == 'TEXT'">
+        <ion-item>
+          <ion-label class="text-center">{{dialog.title}}</ion-label>
+        </ion-item>
+        <ion-item>
+          <ion-textarea [(ngModel)]="dialog.value"></ion-textarea>
+        </ion-item>
+      </div>
       <div *ngIf="dialog.keyword == 'RANGE'">
         <ion-item>
           <ion-label>{{dialog.title}}</ion-label>
