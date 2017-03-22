@@ -10,6 +10,7 @@ import { TestDbPage } from '../pages/test-db/test-db';
 import { EmailLoginPage } from '../pages/email-login/email-login';
 import { User } from '../common/user';
 import { SettingsPage } from '../pages/settings/settings';
+import { UserItemPage } from '../pages/user-item/user-item';
 
 @Component({
   templateUrl: 'app.html'
@@ -32,6 +33,7 @@ export class MyApp {
     this.pages = [
       { title: 'Library', component: Library },
       { title: 'Test DB Page', component: TestDbPage },
+      { title: 'User Item Page', component: UserItemPage },
       { title: 'Settings', component: SettingsPage },
     ];
 

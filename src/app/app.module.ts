@@ -18,6 +18,7 @@ import { Storage } from '@ionic/storage';
 import { EmailSignUpPage } from '../pages/email-sign-up/email-sign-up';
 import { EmailLoginPage } from '../pages/email-login/email-login';
 import { SettingsPage } from '../pages/settings/settings';
+import { UserItemPage } from '../pages/user-item/user-item';
 
 @NgModule({
   declarations: [
@@ -29,7 +30,8 @@ import { SettingsPage } from '../pages/settings/settings';
     OptionsDialogPage,
     EmailSignUpPage,
     EmailLoginPage,
-    SettingsPage
+    SettingsPage,
+    UserItemPage
   ],
   imports: [
     IonicModule.forRoot(MyApp),
@@ -45,7 +47,8 @@ import { SettingsPage } from '../pages/settings/settings';
     OptionsDialogPage,
     EmailSignUpPage,
     EmailLoginPage,
-    SettingsPage
+    SettingsPage,
+    UserItemPage
   ],
   providers: [
     {provide: ErrorHandler, useClass: IonicErrorHandler},

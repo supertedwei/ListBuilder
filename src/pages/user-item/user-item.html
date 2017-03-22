@@ -1,0 +1,61 @@
+<!--
+  Generated template for the UserItem page.
+
+  See http://ionicframework.com/docs/v2/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>User Item Page</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+
+  <ion-grid>
+    <ion-row>
+      <ion-col width-50 >
+        <ion-scroll class="cat" scrollY="true" style="background-color: red;">
+          <ion-list>
+            <div ion-item *ngFor="let option of categoryList" class="item">
+              {{option}}
+            </div>
+          </ion-list>
+        </ion-scroll>
+      </ion-col>
+      <ion-col width-50>
+        <ion-scroll class="cat" scrollY="true" style="background-color: green;">
+          <ion-list>
+            <div ion-item *ngFor="let option of subcategoryList" class="item">
+              {{option}}
+            </div>
+          </ion-list>
+        </ion-scroll>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col width-50>
+        <ion-scroll class="cat" scrollY="true">
+          <ion-list>
+            <div ion-item *ngFor="let option of userItemList" class="item">
+              {{option}}
+            </div>
+          </ion-list>
+        </ion-scroll>
+      </ion-col>
+      <ion-col width-50>
+        <ion-scroll class="cat" scrollY="true" style="background-color: blue;">
+          <ion-list>
+            <div ion-item *ngFor="let option of userTipList" class="item">
+              {{option}}
+            </div>
+          </ion-list>
+        </ion-scroll>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+</ion-content>
