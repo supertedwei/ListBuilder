@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
 
+import { UserTipProvider } from '../../providers/user-tip-provider';
+
 /*
   Generated class for the UserTip page.
 
@@ -13,15 +15,76 @@ import { NavController, NavParams } from 'ionic-angular';
 })
 export class UserTipPage {
 
-  categoryList = ["cat1", "cat2", "cat3"]
-  subcategoryList = ["subcat1", "subcat2", "subcat3"]
-  userItemList = ["userItem1", "userItem2", "userItem3"]
-  userTipList = ["userTip1", "userTip2", "userTip3"]
+  subscription
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {}
+  categoryList = []
+  subcategoryList = []
+  userItemList = []
+  userTipList = []
+
+  selectedCategory;
+  selectedSubcategory;
+  selectedUserItem;
+  selectedUserTip;
+
+  constructor(public navCtrl: NavController, public navParams: NavParams,
+      private userTipProvider: UserTipProvider) {
+    this.subscription = this.userTipProvider.listChanged$.subscribe(() => {
+      console.log('[UserTipPage] userTipProvider emitted')
+      this.prepareCategoryList()
+    });
+
+  }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad UserTipPage');
+    console.log('ionViewDidLoad UserTipPage')
+  }
+
+  prepareCategoryList() {
+    this.categoryList = this.userTipProvider.listCat()
+    if (this.categoryList.length > 0) {
+      this.selectedCategory = this.categoryList[0]
+    } else {
+      this.selectedCategory = null
+    }
+    this.prepareSubcategoryList()
+  }
+
+  prepareSubcategoryList() {
+    if (this.selectedCategory == null) {
+      this.subcategoryList = []
+      return
+    }
+    this.subcategoryList = this.userTipProvider.listSubcat(this.selectedCategory)
+    if (this.subcategoryList.length > 0) {
+      this.selectedSubcategory = this.subcategoryList[0]
+    } else {
+      this.selectedSubcategory = null
+    }
+    this.prepareUserItem()
+  }
+
+  prepareUserItem() {
+    if (this.selectedSubcategory == null) {
+      this.userItemList = []
+      return
+    }
+    this.userItemList = this.userTipProvider.listItem(this.selectedCategory, this.selectedSubcategory)
+    if (this.userItemList.length > 0) {
+      this.selectedUserItem = this.userItemList[0]
+    } else {
+      this.selectedUserItem = null
+    }
+    this.prepareUserTip()
+  }
+
+  prepareUserTip() {
+    if (this.selectedUserItem == null) {
+      this.userTipList = []
+      return
+    }
+    this.userTipList = this.userTipProvider.listUserTipData(
+        this.selectedCategory, this.selectedSubcategory, this.selectedUserItem)
   }
 
 }

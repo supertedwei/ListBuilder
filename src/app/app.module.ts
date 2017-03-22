@@ -14,6 +14,8 @@ import { OptionsDialogPage } from '../pages/options-dialog/options-dialog'
 import { LibraryProvider } from '../providers/library-provider';
 import { LibraryService } from '../providers/library-service'
 import { EmailProvider } from '../providers/email-provider';
+import { UserTipService } from '../providers/user-tip-service';
+import { UserTipProvider } from '../providers/user-tip-provider';
 import { Storage } from '@ionic/storage';
 import { EmailSignUpPage } from '../pages/email-sign-up/email-sign-up';
 import { EmailLoginPage } from '../pages/email-login/email-login';
@@ -55,7 +57,9 @@ import { UserTipPage } from '../pages/user-tip/user-tip';
     Storage,
     LibraryProvider,
     EmailProvider,
-    LibraryService
+    LibraryService,
+    UserTipService,
+    UserTipProvider
   ]
 })
 export class AppModule {}
