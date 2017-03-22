@@ -2,16 +2,16 @@ import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
 
 /*
-  Generated class for the UserItem page.
+  Generated class for the UserTip page.
 
   See http://ionicframework.com/docs/v2/components/#navigation for more info on
   Ionic pages and navigation.
 */
 @Component({
-  selector: 'page-user-item',
-  templateUrl: 'user-item.html'
+  selector: 'page-user-tip',
+  templateUrl: 'user-tip.html'
 })
-export class UserItemPage {
+export class UserTipPage {
 
   categoryList = ["cat1", "cat2", "cat3"]
   subcategoryList = ["subcat1", "subcat2", "subcat3"]
@@ -21,7 +21,7 @@ export class UserItemPage {
   constructor(public navCtrl: NavController, public navParams: NavParams) {}
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad UserItemPage');
+    console.log('ionViewDidLoad UserTipPage');
   }
 
 }
