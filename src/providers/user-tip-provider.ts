@@ -15,7 +15,7 @@ export class UserTipProvider {
       if (data == null) {
         return;
       }
-      this.list = JSON.parse(data);
+      this.list = data;
       this.listChanged$.emit();
       console.log('[UserTipProvider] json loaded ! ');
     })
