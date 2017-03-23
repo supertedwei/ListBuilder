@@ -21,6 +21,7 @@ export class UserTipService {
     let self = this
     var promise = new Promise(function(resolve, reject) {
       var url = self.SERVER_URL + "/getUserTips/" + encodeURIComponent(User.email);
+      // url = "json/user-tip-data.json";
       console.log("url : " + url)
       self.http.get(url).map(res => res.json()).subscribe(data => {
         console.log("getUserTips : " + JSON.stringify(data))
