@@ -24,7 +24,8 @@
       <ion-col width-50 >
         <ion-scroll class="cat" scrollY="true" style="background-color: red;">
           <ion-list>
-            <div ion-item *ngFor="let option of categoryList" class="item">
+            <div ion-item *ngFor="let option of categoryList" class="item" 
+                [class.selected]="option == selectedCategory">
               {{option}}
             </div>
           </ion-list>
@@ -33,7 +34,8 @@
       <ion-col width-50>
         <ion-scroll class="cat" scrollY="true" style="background-color: green;">
           <ion-list>
-            <div ion-item *ngFor="let option of subcategoryList" class="item">
+            <div ion-item *ngFor="let option of subcategoryList" class="item"
+                [class.selected]="option == selectedSubcategory">
               {{option}}
             </div>
           </ion-list>
@@ -44,7 +46,8 @@
       <ion-col width-50>
         <ion-scroll class="cat" scrollY="true">
           <ion-list>
-            <div ion-item *ngFor="let option of userItemList" class="item">
+            <div ion-item *ngFor="let option of userItemList" class="item"
+                [class.selected]="option == selectedUserItem">
               {{option}}
             </div>
           </ion-list>
@@ -53,8 +56,9 @@
       <ion-col width-50>
         <ion-scroll class="cat" scrollY="true" style="background-color: blue;">
           <ion-list>
-            <div ion-item *ngFor="let option of userTipList" class="item">
-              {{option}}
+            <div ion-item *ngFor="let option of userTipList" class="item"
+                [class.selected]="option == selectedUserTip">
+              {{option.dialog}}
             </div>
           </ion-list>
         </ion-scroll>

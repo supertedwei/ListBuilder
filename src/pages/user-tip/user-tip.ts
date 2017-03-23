@@ -85,6 +85,11 @@ export class UserTipPage {
     }
     this.userTipList = this.userTipProvider.listUserTipData(
         this.selectedCategory, this.selectedSubcategory, this.selectedUserItem)
+        if (this.userItemList.length > 0) {
+    this.selectedUserTip = this.userTipList[0]
+    } else {
+      this.selectedUserTip = null
+    }
   }
 
 }
