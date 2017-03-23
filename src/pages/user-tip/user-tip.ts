@@ -50,6 +50,12 @@ export class UserTipPage {
     this.prepareSubcategoryList()
   }
 
+  onCategoryClicked(option) {
+    console.log("onCategoryClicked")
+    this.selectedCategory = option
+    this.prepareSubcategoryList()
+  }
+
   prepareSubcategoryList() {
     if (this.selectedCategory == null) {
       this.subcategoryList = []
@@ -61,6 +67,12 @@ export class UserTipPage {
     } else {
       this.selectedSubcategory = null
     }
+    this.prepareUserItem()
+  }
+
+  onSubcategoryClicked(option) {
+    console.log("onSubcategoryClicked")
+    this.selectedSubcategory = option
     this.prepareUserItem()
   }
 
@@ -78,6 +90,12 @@ export class UserTipPage {
     this.prepareUserTip()
   }
 
+  onUserItemClicked(option) {
+    console.log("onUserItemClicked")
+    this.selectedUserItem = option
+    this.prepareUserTip()
+  }
+
   prepareUserTip() {
     if (this.selectedUserItem == null) {
       this.userTipList = []
@@ -90,6 +108,11 @@ export class UserTipPage {
     } else {
       this.selectedUserTip = null
     }
+  }
+
+  onUserTipClicked(option) {
+    console.log("onUserTipClicked")
+    this.selectedUserTip = option
   }
 
 }
