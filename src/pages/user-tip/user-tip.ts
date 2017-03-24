@@ -38,6 +38,7 @@ export class UserTipPage {
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad UserTipPage')
+    this.userTipProvider.loadUserTips();
   }
 
   prepareCategoryList() {

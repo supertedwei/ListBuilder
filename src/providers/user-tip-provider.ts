@@ -11,6 +11,9 @@ export class UserTipProvider {
 
   constructor(private userTipService: UserTipService) {
     console.log('init UserTipProvider Provider');
+  }
+
+  loadUserTips() {
     this.userTipService.getUserTips().then((data) => {
       if (data == null) {
         return;
