@@ -4,6 +4,8 @@ import { MyApp } from './app.component';
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
+import { AppVersion } from '@ionic-native/app-version';
+import { EmailComposer } from '@ionic-native/email-composer';
 
 // Import the AF2 Module
 import { AngularFireModule } from 'angularfire2';
@@ -19,7 +21,7 @@ import { LibraryService } from '../providers/library-service'
 import { EmailProvider } from '../providers/email-provider';
 import { UserTipService } from '../providers/user-tip-service';
 import { UserTipProvider } from '../providers/user-tip-provider';
-import { Storage } from '@ionic/storage';
+import { IonicStorageModule } from '@ionic/storage'
 import { EmailSignUpPage } from '../pages/email-sign-up/email-sign-up';
 import { EmailLoginPage } from '../pages/email-login/email-login';
 import { SettingsPage } from '../pages/settings/settings';
@@ -40,6 +42,7 @@ import { UserTipPage } from '../pages/user-tip/user-tip';
   ],
   imports: [
     IonicModule.forRoot(MyApp),
+    IonicStorageModule.forRoot(),
     AngularFireModule.initializeApp(FirebaseConfig),
   ],
   bootstrap: [IonicApp],
@@ -59,7 +62,8 @@ import { UserTipPage } from '../pages/user-tip/user-tip';
     StatusBar,
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
-    Storage,
+    AppVersion,
+    EmailComposer,
     LibraryProvider,
     EmailProvider,
     LibraryService,
