@@ -2,6 +2,9 @@ import { NgModule, ErrorHandler } from '@angular/core';
 import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
 import { MyApp } from './app.component';
 
+import { StatusBar } from '@ionic-native/status-bar';
+import { SplashScreen } from '@ionic-native/splash-screen';
+
 // Import the AF2 Module
 import { AngularFireModule } from 'angularfire2';
 
@@ -53,6 +56,8 @@ import { UserTipPage } from '../pages/user-tip/user-tip';
     UserTipPage
   ],
   providers: [
+    StatusBar,
+    SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     Storage,
     LibraryProvider,

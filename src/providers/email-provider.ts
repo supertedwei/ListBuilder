@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Platform, AlertController } from 'ionic-angular';
-import { EmailComposer } from 'ionic-native';
+import { EmailComposer } from '@ionic-native/email-composer';
 
 /*
   Generated class for the EmailProvider provider.
@@ -11,7 +11,8 @@ import { EmailComposer } from 'ionic-native';
 @Injectable()
 export class EmailProvider {
 
-  constructor(public platform: Platform, public alertCtrl: AlertController) {
+  constructor(public platform: Platform, public alertCtrl: AlertController,
+      public emailComposer: EmailComposer) {
     console.log('Hello EmailProvider Provider');
   }
 
@@ -33,7 +34,7 @@ export class EmailProvider {
     };
     // Send a text message using default options
     console.log("open email app");
-    return EmailComposer.open(email);
+    return this.emailComposer.open(email);
   }
 
 }
