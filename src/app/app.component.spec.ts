@@ -9,6 +9,8 @@ import { FirebaseConfig } from './config';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { AppVersion } from '@ionic-native/app-version';
+
+import { Library } from '../pages/library/library';
  
 let comp: MyApp;
 let fixture: ComponentFixture<MyApp>;
@@ -55,8 +57,8 @@ describe('Component: Root Component', () => {
  
     });
  
-    // it('displays the product page to the user', () => {
-    //     expect(comp['rootPage']).toBe(ProductPage);
-    // });
+    it('displays the Email login page', () => {
+        expect(comp['rootPage']).toBe(Library);
+    });
  
 });
