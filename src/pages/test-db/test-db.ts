@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, PopoverController, LoadingController, Loading, ActionSheetController } from 'ionic-angular';
+import { PopoverController, LoadingController, Loading, ActionSheetController } from 'ionic-angular';
 
 import { LibraryProvider } from '../../providers/library-provider';
 import { LibraryService } from '../../providers/library-service'
@@ -30,7 +30,7 @@ export class TestDbPage {
     }
   };
 
-  constructor(public navCtrl: NavController, private libraryProvider: LibraryProvider,
+  constructor(private libraryProvider: LibraryProvider,
       public popoverCtrl: PopoverController, public libraryService: LibraryService,
       public loadingCtrl: LoadingController, public actionSheetCtrl: ActionSheetController) {
     console.log('init TestDbPage')
