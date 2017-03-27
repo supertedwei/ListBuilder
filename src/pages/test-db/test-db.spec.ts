@@ -1,12 +1,14 @@
 import { TestBed, ComponentFixture, async } from '@angular/core/testing';
-import { IonicModule, NavController } from 'ionic-angular';
+import { IonicModule } from 'ionic-angular';
 import { EventEmitter } from '@angular/core';
 
 import { MyApp } from '../../app/app.component';
 import { TestDbPage } from './test-db';
 
 import { LibraryProvider } from '../../providers/library-provider';
+import { LibraryProviderMock} from '../../providers/library-provider.mock';
 import { LibraryService } from '../../providers/library-service'
+import { LibraryServiceMock } from '../../providers/library-service.mock'
 
 let comp: TestDbPage;
 let fixture: ComponentFixture<TestDbPage>;
@@ -47,12 +49,3 @@ describe('Page: Test DB Page', () => {
         expect(comp).toBeTruthy();
     });
 })
-
-export class LibraryProviderMock {
-    public listChanged$ = new EventEmitter();
-    listAll() {}
-}
-
-export class LibraryServiceMock {
-
-}
