@@ -13,6 +13,7 @@ export class Library {
   
   subscription
 
+  dialogParser = new DialogParser()
   clients: ClientData[] = [new ClientData()]
   currentClient: ClientData = this.clients[0]
 
@@ -88,7 +89,7 @@ export class Library {
       var library: LibraryData = this.libraryProvider.getLibraryData(this.currentClient.cat, this.currentClient.subcat, this.currentClient.item)
       console.log("library.dialog : " + library.dialog)
       this.currentClient.rawDialog = library.dialog
-      this.currentClient.dialogs = this.parse(library.dialog)
+      this.currentClient.dialogs = this.dialogParser.parse(library.dialog)
     }
   }
 
@@ -216,8 +217,10 @@ export class Library {
     this.currentClient.dialogs = null
     this.currentClient.state = ClientData.STATE_ITEM
   }
+}
 
-  private parse(dialogString: string): DialogData[] {
+export class DialogParser {
+  parse(dialogString: string): DialogData[] {
     dialogString = dialogString.replace(" ", "");
     var result: DialogData[] = []
 
@@ -255,7 +258,6 @@ export class Library {
 
     return result
   }
-
 }
 
 class LibraryPostData {
