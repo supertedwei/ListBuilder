@@ -1,6 +1,5 @@
 import { TestBed, ComponentFixture, async } from '@angular/core/testing';
 import { IonicModule } from 'ionic-angular';
-import { EventEmitter } from '@angular/core';
 
 import { MyApp } from '../../app/app.component';
 import { TestDbPage } from './test-db';

@@ -13,18 +13,18 @@
 
     <ion-item>
       <ion-label stacked>Email</ion-label>
-      <ion-input type="text" [(ngModel)]="email"></ion-input>
+      <ion-input id="email" type="text" [(ngModel)]="email"></ion-input>
     </ion-item>
 
     <ion-item>
       <ion-label stacked>Password</ion-label>
-      <ion-input type="password" [(ngModel)]="password"></ion-input>
+      <ion-input id="password" type="password" [(ngModel)]="password"></ion-input>
     </ion-item>
 
   </ion-list>
 
-  <button ion-button *ngIf="!waiting" (click)="onLoginClicked()">Login</button>
-  <button ion-button outline *ngIf="!waiting" (click)="onSignupClicked()">Sign Up</button>
+  <button id="btn_login" ion-button *ngIf="!waiting" (click)="onLoginClicked()">Login</button>
+  <button d="btn_signup" ion-button outline *ngIf="!waiting" (click)="onSignupClicked()">Sign Up</button>
 
   <ion-spinner *ngIf="waiting"></ion-spinner>
 
