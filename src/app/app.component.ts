@@ -23,7 +23,7 @@ export class MyApp {
   rootPage: any = Library;
   activePage: any;
 
-  pages: Array<{title: string, component: any}>;
+  pages: Array<{id: string, title: string, component: any}>;
 
   versionNumber = 'not available';
 
@@ -34,10 +34,10 @@ export class MyApp {
 
     // used for an example of ngFor and navigation
     this.pages = [
-      { title: 'Library', component: Library },
-      { title: 'Test DB Page', component: TestDbPage },
-      { title: 'User Tip Page', component: UserTipPage },
-      { title: 'Settings', component: SettingsPage },
+      { id: 'menu_title', title: 'Library', component: Library },
+      { id: 'menu_testdb', title: 'Test DB Page', component: TestDbPage },
+      { id: 'menu_usertip', title: 'User Tip Page', component: UserTipPage },
+      { id: 'menu_settings', title: 'Settings', component: SettingsPage },
     ];
 
     this.activePage = this.pages[0];

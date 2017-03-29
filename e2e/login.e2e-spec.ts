@@ -13,6 +13,21 @@ describe('Login Test', () => {
     //browser.driver.sleep(5000)
   })
 
+  it('Test Logout', () => {
+
+    browser.wait(ExpectedConditions.visibilityOf(element(by.css('[menutoggle]'))), 5000).then(() => {
+      element(by.css('[menutoggle]')).click().then(() => {
+        browser.driver.sleep(1000)
+        element(by.id('menu_settings')).click().then(() => {
+          browser.driver.sleep(1000)
+          element(by.id('btn_logout')).click().then(() => {
+          })
+        })
+      })
+    })
+
+  })
+
   it('Login successfully', () => {
 
     browser.driver.actions()
